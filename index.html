@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Week 9 Tuesday & Wednesday Practice Quiz</title>
+<style>
+/* --- Color Variables --- */
+:root {
+    /* Default: Dark Theme */
+    --bg-color: #2d343e; /* Dark background */
+    --container-bg: #3c424f; /* Slightly lighter container */
+    --text-color: #e8e6e3; /* Light text */
+    --question-text-color: #8ab4f8; /* Light blue for questions */
+    --lo-text-color: #b0c4de; /* Lighter blue for learning objective */
+    --border-color: #555; /* Darker borders */
+    --separator-color: #4a4f5a;
+    --label-bg: #454c5a;
+    --label-border: #6c757d;
+    --label-hover-bg: #525966;
+    --label-hover-border: #7a828a;
+    --button-bg: #8ab4f8;
+    --button-text: #202124;
+    --button-hover-bg: #a3c5f9;
+    --button-disabled-bg: #5f6368;
+    --feedback-correct-bg: #344e41;
+    --feedback-correct-text: #c7f9cc;
+    --feedback-correct-border: #52b788;
+    --feedback-incorrect-bg: #5e2129;
+    --feedback-incorrect-text: #f8d7da;
+    --feedback-incorrect-border: #a4133c;
+    --feedback-rationale-text: #adb5bd; /* Lighter gray for rationale */
+    --feedback-source-text: #c7d3e0;
+    --feedback-separator: #6c757d;
+    --radio-accent: #8ab4f8;
+}
+
+.light-theme {
+    --bg-color: #eef2f7;
+    --container-bg: #ffffff;
+    --text-color: #343a40;
+    --question-text-color: #0056b3;
+    --lo-text-color: #5a6e8a;
+    --border-color: #dee2e6;
+    --separator-color: #e9ecef;
+    --label-bg: #f8f9fa;
+    --label-border: #ced4da;
+    --label-hover-bg: #e2e6ea;
+    --label-hover-border: #adb5bd;
+    --button-bg: #007bff;
+    --button-text: white;
+    --button-hover-bg: #0056b3;
+    --button-disabled-bg: #6c757d;
+    --feedback-correct-bg: #d1e7dd;
+    --feedback-correct-text: #0f5132;
+    --feedback-correct-border: #badbcc;
+    --feedback-incorrect-bg: #f8d7da;
+    --feedback-incorrect-text: #842029;
+    --feedback-incorrect-border: #f5c2c7;
+    --feedback-rationale-text: #495057;
+    --feedback-source-text: #343a40;
+    --feedback-separator: #ccc;
+    --radio-accent: #007bff;
+}
+
+/* --- General Styles --- */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    line-height: 1.7;
+    margin: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding-bottom: 40px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#theme-toggle-button {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    padding: 8px 12px;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: 1px solid var(--label-border);
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    z-index: 1000;
+     transition: background-color 0.3s, color 0.3s;
+}
+ #theme-toggle-button:hover {
+     opacity: 0.8;
+ }
+
+
+#quiz-container {
+    max-width: 900px;
+    margin: 80px auto 30px auto;
+    background: var(--container-bg);
+    padding: 25px 35px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--border-color);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.question-block {
+    margin-bottom: 35px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid var(--separator-color);
+    transition: border-color 0.3s;
+}
+
+.question-block:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 5px;
+}
+
+.learning-objective {
+    font-size: 0.85em;
+    font-style: italic;
+    color: var(--lo-text-color);
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--separator-color);
+}
+
+.question-text {
+    font-weight: 600;
+    font-size: 1.1em;
+    margin-bottom: 18px;
+    color: var(--question-text-color);
+    transition: color 0.3s;
+}
+
+.options label {
+    display: block;
+    margin-bottom: 12px;
+    cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 6px;
+    border: 1px solid var(--label-border);
+    background-color: var(--label-bg);
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+.options label:hover {
+    background-color: var(--label-hover-bg);
+    border-color: var(--label-hover-border);
+}
+
+.options input[type="radio"]:checked+span {
+     font-weight: bold;
+     color: var(--question-text-color);
+}
+.options input[type="radio"] {
+    margin-right: 12px;
+    accent-color: var(--radio-accent);
+}
+
+.button-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.check-button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.2s, color 0.2s, opacity 0.2s;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+}
+
+.check-button:hover {
+    opacity: 0.85;
+}
+
+ .check-button:disabled {
+     background-color: var(--button-disabled-bg);
+     cursor: not-allowed;
+     opacity: 0.7;
+ }
+
+.feedback {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 6px;
+    font-size: 0.95em;
+    display: none;
+    border: 1px solid transparent;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.feedback.correct {
+    background-color: var(--feedback-correct-bg);
+    color: var(--feedback-correct-text);
+    border-color: var(--feedback-correct-border);
+    display: block;
+}
+
+.feedback.incorrect {
+    background-color: var(--feedback-incorrect-bg);
+    color: var(--feedback-incorrect-text);
+    border-color: var(--feedback-incorrect-border);
+    display: block;
+}
+
+.feedback-status {
+     font-weight: bold;
+     font-size: 1.1em;
+     display: block;
+     margin-bottom: 8px;
+}
+
+.feedback-rationale {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--feedback-separator);
+    font-size: 0.9em;
+    color: var(--feedback-rationale-text);
+    transition: color 0.3s, border-color 0.3s;
+}
+
+.feedback-source {
+    margin-top: 10px;
+    font-size: 0.85em;
+    font-style: italic;
+    color: var(--feedback-source-text);
+    background-color: rgba(0,0,0,0.1);
+    padding: 8px;
+    border-radius: 4px;
+}
+
+h1 {
+    text-align: center;
+    color: var(--question-text-color);
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+</style>
+</head>
+<body>
+
+<button id="theme-toggle-button">Toggle Theme</button>
+<h1>Week 9 Tuesday & Wednesday Practice Quiz</h1>
+
+<div id="quiz-container">
+    <!-- Questions will be loaded here by JavaScript -->
+</div>
+
+<script>
+    const quizData = [
+    // Prenatal Timeline & Congenital Anomalies - 21 Questions
+    {
+        learningObjective: "LO1 (Prenatal Timeline): Distinguish the difference between embryonic/fetal age & gestational age, and how these dates are calculated, and explain why this is important.",
+        question: "A clinician is determining the estimated date of delivery for a patient. Which measurement method is most commonly used in clinical practice due to its reliability?",
+        options: {
+            A: "Embryonic age, based on the date of conception",
+            B: "Gestational age, based on the first day of the last normal menstrual period (LNMP)",
+            C: "Fetal age, based on the day of implantation",
+            D: "Conceptional age, based on the date of ovulation"
+        },
+        correctAnswer: "B",
+        rationale: "Gestational age is the standard used clinically because the date of the last normal menstrual period is usually known, whereas the exact date of conception is often uncertain. Gestational age is calculated as 280 days (40 weeks) from the onset of the LNMP.",
+        source: "'Gestational age – age of embryo/fetus starting at the onset of LNMP (used clinically).' (Prenatal Timeline Handout, Page 1)"
+    },
+    {
+        learningObjective: "LO1 (Prenatal Timeline): Distinguish the difference between embryonic/fetal age & gestational age, and how these dates are calculated, and explain why this is important.",
+        question: "A pregnancy is stated to be 38 weeks in embryonic age. What is its equivalent gestational age?",
+        options: {
+            A: "36 weeks",
+            B: "38 weeks",
+            C: "40 weeks",
+            D: "42 weeks"
+        },
+        correctAnswer: "C",
+        rationale: "Embryonic age (or fetal age) begins at fertilization. Gestational age begins at the start of the last normal menstrual period (LNMP), which is approximately two weeks before fertilization. Therefore, gestational age is about two weeks longer than embryonic age. A 38-week embryonic age corresponds to a 40-week gestational age.",
+        source: "'Fertilization occurs ~14 days after the beginning of menstruation, which is why there is a 2 week difference between embryonic/fetal age and gestational age.' (Prenatal Timeline Handout, Page 1)"
+    },
+    {
+        learningObjective: "LO1 (Prenatal Timeline): Distinguish the difference between embryonic/fetal age & gestational age, and how these dates are calculated, and explain why this is important.",
+        question: "Why is it clinically important to use gestational age rather than embryonic age for monitoring pregnancy milestones and predicting delivery dates?",
+        options: {
+            A: "It is more scientifically accurate.",
+            B: "It accounts for the pre-implantation period.",
+            C: "The date of the LNMP is a more certain and consistently available data point than the date of conception.",
+            D: "It aligns better with fetal growth charts based on ultrasound."
+        },
+        correctAnswer: "C",
+        rationale: "The primary reason for the clinical preference for gestational age is practicality and reliability. While the exact moment of fertilization is rarely known, most women can recall the first day of their last menstrual period. This provides a standardized starting point for tracking the pregnancy.",
+        source: "'Date of conception is not always known, but the date of the last normal menstrual period is usually known.' (Prenatal Timeline Slides, Page 8)"
+    },
+    {
+        learningObjective: "LO2 (Prenatal Timeline): Distinguish differences between the embryonic and fetal periods in terms of timeline, developmental processes that are occurring, and susceptibility.",
+        question: "The period from week 3 to week 8 of development is known as the embryonic period. What is the key developmental process that characterizes this stage?",
+        options: {
+            A: "Rapid body growth and functional maturation of tissues",
+            B: "Cleavage and blastocyst formation",
+            C: "Organogenesis (formation of all major organ systems)",
+            D: "Implantation into the uterine wall"
+        },
+        correctAnswer: "C",
+        rationale: "The embryonic period is defined by organogenesis, the critical phase where the three germ layers (ectoderm, mesoderm, and endoderm) differentiate and organize to establish all the major organ systems of the body. This is distinct from the fetal period, which is characterized mainly by growth and maturation.",
+        source: "'All major external & internal organs and structures are established from weeks 4-8. Therefore, this is the most critical period of development.' (Prenatal Timeline Handout, Page 3)"
+    },
+    {
+        learningObjective: "LO2 (Prenatal Timeline): Distinguish differences between the embryonic and fetal periods in terms of timeline, developmental processes that are occurring, and susceptibility.",
+        question: "Exposure to a teratogen during the fetal period (week 9 to birth) is most likely to cause which of the following abnormalities?",
+        options: {
+            A: "Major structural anomalies, such as absence of a limb",
+            B: "Failure of implantation",
+            C: "Functional defects and minor structural anomalies",
+            D: "Spontaneous abortion of the embryo"
+        },
+        correctAnswer: "C",
+        rationale: "During the fetal period, most major organ systems have already formed. The focus is on growth, differentiation, and functional maturation. Therefore, teratogenic insults at this stage are more likely to cause functional issues (e.g., cognitive deficits) or minor morphological defects rather than the major structural anomalies seen with exposure during the embryonic period.",
+        source: "'Fetal period (9-38 weeks) – functional defects & minor anomalies.' (Prenatal Timeline Handout, Page 4)"
+    },
+    {
+        learningObjective: "LO2 (Prenatal Timeline): Distinguish differences between the embryonic and fetal periods in terms of timeline, developmental processes that are occurring, and susceptibility.",
+        question: "Which developmental period is defined as lasting from the beginning of the 9th week after conception until birth?",
+        options: {
+            A: "The embryonic period",
+            B: "The organogenetic period",
+            C: "The pre-implantation period",
+            D: "The fetal period"
+        },
+        correctAnswer: "D",
+        rationale: "The prenatal timeline is divided into the embryonic period (up to the end of the 8th week) and the fetal period. The fetal period begins at week 9 and is characterized primarily by the rapid growth of the body and the differentiation and functional maturation of tissues and organs.",
+        source: "'Fetal Period - 9 weeks to birth - Characterized by rapid body growth and differentiation of tissues and organ systems.' (Prenatal Timeline Slides, Page 15)"
+    },
+    {
+        learningObjective: "LO3 (Prenatal Timeline): List the general causes of congenital abnormalities and explain the importance of distinguishing their origin.",
+        question: "A newborn is diagnosed with clubfoot. The obstetric history reveals severe oligohydramnios (insufficient amniotic fluid) throughout the pregnancy. This type of birth defect, resulting from mechanical forces on a normally developing structure, is best classified as a:",
+        options: {
+            A: "Malformation",
+            B: "Disruption",
+            C: "Deformation",
+            D: "Dysplasia"
+        },
+        correctAnswer: "C",
+        rationale: "A deformation is an abnormal form or position of a body part caused by mechanical forces. Intrauterine compression due to oligohydramnios is a classic example of such a force, which can lead to conditions like clubfoot in an otherwise normally developed fetus.",
+        source: "'Deformation – body defect resulting from mechanical forces - Intrauterine compression due to too little amniotic fluid (oligohydramnios) can result in clubfoot.' (Prenatal Timeline Slides, Page 31)"
+    },
+    {
+        learningObjective: "LO3 (Prenatal Timeline): List the general causes of congenital abnormalities and explain the importance of distinguishing their origin.",
+        question: "An infant is born with multiple anomalies, including heart defects and characteristic facial features, that are all traced back to a single underlying cause: a trisomy 21 chromosomal abnormality. This pattern of defects is best described as a:",
+        options: {
+            A: "Syndrome",
+            B: "Sequence",
+            C: "Association",
+            D: "Deformation"
+        },
+        correctAnswer: "A",
+        rationale: "A syndrome is a group of anomalies that occur together and have a specific, common underlying cause. Down syndrome, caused by trisomy 21, is the classic example where multiple, seemingly unrelated defects are all manifestations of the single genetic error.",
+        source: "'Syndrome is a group of anomalies occurring together with a specific common cause - Example: Down syndrome.' (Prenatal Timeline Slides, Page 32)"
+    },
+    {
+        learningObjective: "LO3 (Prenatal Timeline): List the general causes of congenital abnormalities and explain the importance of distinguishing their origin.",
+        question: "What is the most common category of causes for congenital anomalies?",
+        options: {
+            A: "Chromosomal abnormalities",
+            B: "Environmental agents (teratogens)",
+            C: "Multifactorial inheritance",
+            D: "Unknown etiology"
+        },
+        correctAnswer: "D",
+        rationale: "While genetic factors, environmental factors, and multifactorial inheritance are known causes of birth defects, the majority of congenital anomalies (50-60%) have no known cause and are classified as having an unknown etiology.",
+        source: "'Unknown (50-60% of cases).' (Prenatal Timeline Handout, Page 4) and Pie chart on 'Congenital Anomalies Causes' (Prenatal Timeline Slides, Page 33)"
+    },
+    {
+        learningObjective: "LO4 (Prenatal Timeline): Discuss the effects that teratogens such as prescription drugs (e.g., thalidomide, retinoic acid), alcohol, cigarettes, infectious agents (e.g., TORCH infections), dietary deficiencies (e.g., folic acid), and radiation may have on a fetus.",
+        question: "A child is born with phocomelia (absence of proximal limb structures). The mother's history reveals she took a sedative for morning sickness during the first trimester while traveling in a country where the drug was available in the 1960s. Which teratogen is classically associated with this defect?",
+        options: {
+            A: "Retinoic acid",
+            B: "Alcohol",
+            C: "Thalidomide",
+            D: "Cigarette smoke"
+        },
+        correctAnswer: "C",
+        rationale: "Thalidomide, used as a sedative in the late 1950s and early 1960s, is the classic teratogen known to cause severe limb defects, including meromelia (partial absence) and amelia/phocomelia (complete absence of limbs). The critical period for this effect is 24-36 days after fertilization.",
+        source: "'Thalidomide... Most common presenting feature was meromelia (absence of part of the limb) or amelia (absence of limbs).' (Prenatal Timeline Slides, Page 38)"
+    },
+    {
+        learningObjective: "LO4 (Prenatal Timeline): Discuss the effects that teratogens such as prescription drugs (e.g., thalidomide, retinoic acid), alcohol, cigarettes, infectious agents (e.g., TORCH infections), dietary deficiencies (e.g., folic acid), and radiation may have on a fetus.",
+        question: "A child is diagnosed with Fetal Alcohol Syndrome (FAS). The clinical features are thought to be caused by excessive cell death and failure of cell migration in structures derived from which embryonic cell population?",
+        options: {
+            A: "Endoderm",
+            B: "Paraxial mesoderm",
+            C: "Neural crest cells",
+            D: "Surface ectoderm"
+        },
+        correctAnswer: "C",
+        rationale: "The characteristic craniofacial dysmorphism and other defects seen in Fetal Alcohol Syndrome are believed to result from alcohol's disruptive effects on neural crest cells. These cells are crucial for the formation of the facial skeleton, heart, and parts of the nervous system. Alcohol-induced apoptosis and migration defects in this cell population lead to the observed anomalies.",
+        source: "'Clinical features are thought to be cause by excessive cell death and failure of cell migration in structures derived from neural crest cells.' (Prenatal Timeline Slides, Page 40)"
+    },
+    {
+        learningObjective: "LO4 (Prenatal Timeline): Discuss the effects that teratogens such as prescription drugs (e.g., thalidomide, retinoic acid), alcohol, cigarettes, infectious agents (e.g., TORCH infections), dietary deficiencies (e.g., folic acid), and radiation may have on a fetus.",
+        question: "A pregnant woman is diagnosed with a congenital Rubella infection. Which of the following is part of the classic triad of defects seen in Congenital Rubella Syndrome?",
+        options: {
+            A: "Hydrocephalus",
+            B: "Limb deformities",
+            C: "Cardiac defects (e.g., patent ductus arteriosus)",
+            D: "Intracranial calcifications"
+        },
+        correctAnswer: "C",
+        rationale: "The classic triad of Congenital Rubella Syndrome consists of eye defects (cataracts, glaucoma), sensorineural hearing loss, and cardiac defects, most commonly patent ductus arteriosus.",
+        source: "'Classic triad presentation in infants: - Eye defects... - Cardiac defects (patent ductus arteriosus) - Sensorineural hearing loss...' (Prenatal Timeline Slides, Page 46)"
+    },
+    {
+        learningObjective: "LO5 (Prenatal Timeline): Discuss the developmental and anatomical basis of anomalies of abnormal neural tube closure, including spinal bifida, myelomeningocele, anencephaly, and encephalocele.",
+        question: "Anencephaly is a severe congenital anomaly characterized by the absence of a major portion of the brain, skull, and scalp. This condition is caused by the failure of which specific embryonic structure to close?",
+        options: {
+            A: "Caudal neuropore",
+            B: "Cranial neuropore",
+            C: "Primitive streak",
+            D: "Somites"
+        },
+        correctAnswer: "B",
+        rationale: "The neural tube forms the brain and spinal cord. Its closure begins in the middle and proceeds towards both ends. The cranial (or anterior) neuropore is the last part of the neural tube to close at the head end. Failure of this closure results in anencephaly, which is incompatible with life.",
+        source: "'Anencephaly – absence of a major portion of the brain, skull, & scalp caused by failure of the cranial (anterior) neuropore to close.' (Prenatal Timeline Handout, Page 9)"
+    },
+    {
+        learningObjective: "LO5 (Prenatal Timeline): Discuss the developmental and anatomical basis of anomalies of abnormal neural tube closure, including spinal bifida, myelomeningocele, anencephaly, and encephalocele.",
+        question: "In a case of myelomeningocele, a cyst-like sac protrudes through a defect in the vertebral arches. What does this sac contain?",
+        options: {
+            A: "Only cerebrospinal fluid (CSF)",
+            B: "Meninges and CSF only",
+            C: "Spinal cord and nerve roots only",
+            D: "Meninges, CSF, spinal cord, and nerve roots"
+        },
+        correctAnswer: "D",
+        rationale: "Myelomeningocele is the most severe form of spina bifida cystica. The term itself indicates the contents: 'myelo' refers to the spinal cord, and 'meningo' refers to the meninges. Therefore, the protruding sac contains the meninges, CSF, and parts of the spinal cord and/or nerve roots.",
+        source: "'Myelomeningocele – meninges & spinal cord &/or nerve roots are exposed in a cyst-like sac.' (Prenatal Timeline Handout, Page 9)"
+    },
+    {
+        learningObjective: "LO5 (Prenatal Timeline): Discuss the developmental and anatomical basis of anomalies of abnormal neural tube closure, including spinal bifida, myelomeningocele, anencephaly, and encephalocele.",
+        question: "An encephalocele is a type of neural tube defect characterized by a sac-like protrusion of the brain and its membranes through an opening in the skull. This defect is a result of:",
+        options: {
+            A: "Failure of the caudal neuropore to close",
+            B: "Failure of the cranial neuropore to close",
+            C: "A defect in somite formation",
+            D: "Abnormal gastrulation"
+        },
+        correctAnswer: "B",
+        rationale: "Similar to anencephaly, an encephalocele is a defect of cranial neural tube closure. It represents a less severe failure of the cranial neuropore to close, resulting in a herniation of intracranial contents through a skull defect.",
+        source: "'Encephalocele – sac-like protrusions of brain & meninges through openings in skull; caused by failure of the cranial (anterior, rostral) neuropore to close.' (Prenatal Timeline Handout, Page 9)"
+    },
+    {
+        learningObjective: "LO6 (Prenatal Timeline): Recognize and explain the mechanism of causation of congenital anomalies based on a description of the clinical presentation.",
+        question: "A child presents with a thin upper lip, smooth philtrum, and small palpebral fissures. The mother admits to consuming significant amounts of alcohol during pregnancy. The mechanism for these defects involves alcohol-induced disruption of which process?",
+        options: {
+            A: "Gastrulation",
+            B: "Neural crest cell migration and survival",
+            C: "Somite differentiation",
+            D: "Yolk sac formation"
+        },
+        correctAnswer: "B",
+        rationale: "Fetal Alcohol Syndrome's characteristic facial features, along with many of its cardiac and neurological defects, are attributed to alcohol's teratogenic effect on neural crest cells. Alcohol causes excessive cell death (apoptosis) and inhibits the proper migration of these cells, which are essential for forming the craniofacial skeleton.",
+        source: "'Clinical features are thought to be cause by excessive cell death and failure of cell migration in structures derived from neural crest cells.' (Prenatal Timeline Slides, Page 40)"
+    },
+    {
+        learningObjective: "LO6 (Prenatal Timeline): Recognize and explain the mechanism of causation of congenital anomalies based on a description of the clinical presentation.",
+        question: "An infant is born with amelia (absence of limbs). This defect is known to be caused by the drug thalidomide. What is the proposed mechanism of thalidomide's teratogenicity?",
+        options: {
+            A: "Inhibition of folic acid metabolism",
+            B: "Disruption of cell signaling via the Sonic hedgehog pathway",
+            C: "Antiangiogenic actions leading to blood vessel disruption in the limb buds",
+            D: "Induction of chromosomal nondisjunction"
+        },
+        correctAnswer: "C",
+        rationale: "One of the leading theories for thalidomide's mechanism is its antiangiogenic properties. It is thought to disrupt the formation of new blood vessels within the developing limb buds, leading to cell death and a failure of the limbs to develop properly.",
+        source: "'Antiangiogenic actions leading to blood vessel disruption or loss, which results in cell death and loss of limb signaling pathways.' (Prenatal Timeline Handout, Page 5)"
+    },
+    {
+        learningObjective: "LO6 (Prenatal Timeline): Recognize and explain the mechanism of causation of congenital anomalies based on a description of the clinical presentation.",
+        question: "A newborn exhibits flexion deformities of the limbs and a flattened face (Potter facies). The pregnancy was complicated by renal agenesis (failure of kidney development). The immediate mechanism causing the physical deformities is:",
+        options: {
+            A: "A primary genetic defect in limb formation",
+            B: "A viral infection disrupting bone growth",
+            C: "Intrauterine compression due to oligohydramnios",
+            D: "Maternal dietary deficiency"
+        },
+        correctAnswer: "C",
+        rationale: "Renal agenesis leads to a failure to produce fetal urine, which is the main source of amniotic fluid in the second half of pregnancy. The resulting oligohydramnios (low amniotic fluid) causes the fetus to be compressed by the uterine walls, leading to physical deformations like clubfoot and Potter facies. The limb defect is a deformation, not a malformation.",
+        source: "'Deformation – abnormal form, shape, or position of a part of the body that results from mechanical forces. (Example: Intrauterine compression from too little amniotic fluid or oligohydramnios).' (Prenatal Timeline Handout, Page 4)"
+    },
+    {
+        learningObjective: "LO7 (Prenatal Timeline): Generate realistic predictions about developmental abnormalities based on the timeline of development and the temporal introduction of potential teratogenic agents.",
+        question: "A woman takes a medication known to cause major cardiac defects. She took the medication only during the 10th week of gestation. What is the most likely outcome for the fetus regarding cardiac development?",
+        options: {
+            A: "A severe ventricular septal defect is highly likely.",
+            B: "A minor functional murmur may develop.",
+            C: "No cardiac defect is likely, as the critical period has passed.",
+            D: "The heart will fail to form entirely."
+        },
+        correctAnswer: "C",
+        rationale: "The heart, along with most other major organs, undergoes its primary development during the embryonic period, specifically from week 3 to week 8. By week 10, which is in the fetal period, the heart's major structural formation is complete. Teratogen exposure at this time is unlikely to cause a major structural defect like a VSD, though it could affect growth or function.",
+        source: "'The most critical period in development is when cell division, cell differentiation, & morphogenesis are at their peak... The central nervous system (CNS) & heart are the earliest organ systems to form.' (Prenatal Timeline Handout, Page 2) and Organogenesis chart (Prenatal Timeline Slides, Page 10)"
+    },
+    {
+        learningObjective: "LO7 (Prenatal Timeline): Generate realistic predictions about developmental abnormalities based on the timeline of development and the temporal introduction of potential teratogenic agents.",
+        question: "A woman is exposed to a high dose of radiation at 1 week post-conception, before her missed period. What is the most probable outcome?",
+        options: {
+            A: "The fetus will develop severe limb defects.",
+            B: "The fetus will have microcephaly.",
+            C: "Spontaneous abortion or survival with no defects.",
+            D: "The fetus will develop cleft palate."
+        },
+        correctAnswer: "C",
+        rationale: "The first two weeks of development (pre-implantation and bilaminar disc stage) are considered the 'all-or-none' period. A severe teratogenic insult during this time will likely damage all or most of the cells, resulting in the death of the embryo and spontaneous abortion. If the damage is limited and the embryo survives, it can often compensate and develop normally without defects.",
+        source: "'First 2 weeks of development (pre-implantation phase) – no effect or spontaneous abortion.' (Prenatal Timeline Handout, Page 4)"
+    },
+    {
+        learningObjective: "LO7 (Prenatal Timeline): Generate realistic predictions about developmental abnormalities based on the timeline of development and the temporal introduction of potential teratogenic agents.",
+        question: "A teratogen that specifically disrupts the closure of the caudal neuropore would have its effect during which week of embryonic development?",
+        options: {
+            A: "Week 2",
+            B: "Week 4",
+            C: "Week 8",
+            D: "Week 12"
+        },
+        correctAnswer: "B",
+        rationale: "Neural tube formation and closure is a key event of the 4th week of development. The cranial and caudal neuropores are the last portions to close, and this process is typically completed by the end of week 4. Therefore, a teratogen would have to be present during this week to cause a defect like spina bifida.",
+        source: "'Specifically, during week 4: Neural tube formation occurs. Cranial (anterior) & caudal (posterior) neuropores close during the 4th week.' (Prenatal Timeline Handout, Page 3)"
+    },
+    // Placenta & Extraembryonic Membranes - 27 Questions
+    {
+        learningObjective: "LO1 (Placenta & Membranes): Describe the development and function of the extraembryonic membranes: amnion (and amniotic cavity), chorion, yolk sac, and allantois.",
+        question: "Which extraembryonic membrane is the outermost, enclosing the embryo and all other membranes, and forms the fetal part of the placenta?",
+        options: {
+            A: "Amnion",
+            B: "Yolk sac",
+            C: "Chorion",
+            D: "Allantois"
+        },
+        correctAnswer: "C",
+        rationale: "The chorion is the outermost fetal membrane, consisting of the trophoblast and underlying extraembryonic mesoderm. It forms the chorionic sac, and its villous portion (chorion frondosum) develops into the fetal part of the placenta.",
+        source: "'Chorion – outermost fetal membrane that forms a sac around the embryo, amnion, yolk sac, & umbilical cord.' (Placenta & Membranes Handout, Page 4)"
+    },
+    {
+        learningObjective: "LO1 (Placenta & Membranes): Describe the development and function of the extraembryonic membranes: amnion (and amniotic cavity), chorion, yolk sac, and allantois.",
+        question: "The yolk sac plays a role in nutrient transfer in the early weeks of development. As embryonic folding occurs, the endoderm of the yolk sac is incorporated into the embryo to form which structure?",
+        options: {
+            A: "The primordial heart",
+            B: "The primordial gut tube",
+            C: "The neural tube",
+            D: "The umbilical cord"
+        },
+        correctAnswer: "B",
+        rationale: "During lateral and cephalocaudal folding, a portion of the endoderm-lined yolk sac is enclosed within the embryo. This incorporated part becomes the primitive gut, the precursor to the entire gastrointestinal tract.",
+        source: "'Yolk sac endoderm is incorporated into the embryo to form the primordial gut tube.' (Placenta & Membranes Handout, Page 4)"
+    },
+    {
+        learningObjective: "LO1 (Placenta & Membranes): Describe the development and function of the extraembryonic membranes: amnion (and amniotic cavity), chorion, yolk sac, and allantois.",
+        question: "The allantois, an endodermally-lined outpocketing of the hindgut, is embedded in the connecting stalk. Its blood vessels persist to become which important structures?",
+        options: {
+            A: "The hepatic portal system",
+            B: "The coronary arteries",
+            C: "The umbilical arteries and vein",
+            D: "The vitelline arteries and veins"
+        },
+        correctAnswer: "C",
+        rationale: "The allantois itself is a rudimentary structure in humans, but its associated blood vessels are essential. They develop into the two umbilical arteries, which carry deoxygenated blood from the fetus to the placenta, and the one umbilical vein, which carries oxygenated blood back to the fetus.",
+        source: "The allantois is described as being embedded in the umbilical cord. The umbilical cord contains the umbilical arteries and vein. (Placenta & Membranes Handout, Page 4 and Placenta Pathology Slides, Page 5)"
+    },
+    {
+        learningObjective: "LO2 (Placenta & Membranes): Describe the formation of the placenta following implantation and the resulting uteroplacental circulation.",
+        question: "During implantation, the trophoblast rapidly proliferates and differentiates into two layers. Which layer is the outer, multinucleated mass that invades the endometrium and erodes maternal blood vessels?",
+        options: {
+            A: "Cytotrophoblast",
+            B: "Syncytiotrophoblast",
+            C: "Epiblast",
+            D: "Extraembryonic mesoderm"
+        },
+        correctAnswer: "B",
+        rationale: "The syncytiotrophoblast is a highly invasive, non-mitotic, multinucleated syncytium that forms the outer layer of the trophoblast. It is responsible for invading the maternal endometrium, establishing contact with maternal blood by eroding capillaries and glands, and producing hCG.",
+        source: "'Syncytiotrophoblast – outer layer consisting of a multinucleate protoplasmic mass formed by the fusion of cells; sends out fingerlike projections into the endometrium.' (Placenta & Membranes Handout, Page 2)"
+    },
+    {
+        learningObjective: "LO2 (Placenta & Membranes): Describe the formation of the placenta following implantation and the resulting uteroplacental circulation.",
+        question: "The establishment of the primitive uteroplacental circulation occurs when maternal blood from eroded endometrial arteries flows into and fills which spaces within the syncytiotrophoblast?",
+        options: {
+            A: "Chorionic cavity",
+            B: "Amniotic cavity",
+            C: "Lacunae (intervillous space)",
+            D: "Exocoelomic cavity"
+        },
+        correctAnswer: "C",
+        rationale: "As the syncytiotrophoblast invades the endometrium, vacuoles appear within it that coalesce to form large spaces called lacunae. When the syncytiotrophoblast erodes maternal sinusoids (capillaries), these lacunae fill with maternal blood, establishing the beginning of uteroplacental circulation. This space later becomes the intervillous space.",
+        source: "'Lacunae (vascular lakes or spaces) form within the syncytiotrophoblast and become filled with maternal blood and glandular secretions.' (Placenta & Membranes Handout, Page 2)"
+    },
+    {
+        learningObjective: "LO2 (Placenta & Membranes): Describe the formation of the placenta following implantation and the resulting uteroplacental circulation.",
+        question: "The maternal part of the placenta is formed from the functional layer of the endometrium that is deep to the embryo. What is this specific region of the decidua called?",
+        options: {
+            A: "Decidua capsularis",
+            B: "Decidua parietalis",
+            C: "Decidua basalis",
+            D: "Decidua laeve"
+        },
+        correctAnswer: "C",
+        rationale: "The decidua is the pregnant endometrium, and it is divided into three regions. The decidua basalis is the component that lies underneath the implanted embryo and forms the maternal side of the placenta, interacting with the chorion frondosum.",
+        source: "'Maternal portion develops from the uterus endometrium (inner lining of uterus) → forms the decidua basalis.' (Placenta & Membranes Handout, Page 4)"
+    },
+    {
+        learningObjective: "LO3 (Placenta & Membranes): Discuss the role of the placenta in metabolism, endocrine secretion, maternal-fetal gas exchange, nutrient transport to the fetus, and removal of wastes.",
+        question: "Which hormone, produced by the syncytiotrophoblast, is essential for maintaining the corpus luteum in early pregnancy, thereby ensuring continued progesterone production?",
+        options: {
+            A: "Estrogen",
+            B: "Progesterone",
+            C: "Human placental lactogen (hPL)",
+            D: "Human chorionic gonadotropin (hCG)"
+        },
+        correctAnswer: "D",
+        rationale: "hCG is the primary endocrine signal of the implanting embryo. Its main function is to 'rescue' the corpus luteum from degradation, stimulating it to continue producing progesterone, which is vital for maintaining the endometrial lining and the pregnancy until the placenta can take over this function.",
+        source: "'hCG Functions: a. Maintains the ovarian corpus luteum... b. Stimulates progesterone production by the corpus luteum...' (Placenta & Membranes Handout, Page 2)"
+    },
+    {
+        learningObjective: "LO3 (Placenta & Membranes): Discuss the role of the placenta in metabolism, endocrine secretion, maternal-fetal gas exchange, nutrient transport to the fetus, and removal of wastes.",
+        question: "The transfer of maternal antibodies to the fetus provides passive immunity. Which class of immunoglobulin is primarily transported across the placenta?",
+        options: {
+            A: "IgA",
+            B: "IgM",
+            C: "IgE",
+            D: "IgG"
+        },
+        correctAnswer: "D",
+        rationale: "The placenta actively transports maternal IgG antibodies to the fetus via the Brambell receptor (FcRn). This is the only class of antibody that significantly crosses the placenta, providing the newborn with passive immunity against various pathogens for the first few months of life.",
+        source: "'Maternal antibodies (IgG class) provide a passive immunity to the fetus against certain common childhood (ex. diphtheria, smallpox, & measles).' (Placenta & Membranes Handout, Page 7)"
+    },
+    {
+        learningObjective: "LO3 (Placenta & Membranes): Discuss the role of the placenta in metabolism, endocrine secretion, maternal-fetal gas exchange, nutrient transport to the fetus, and removal of wastes.",
+        question: "Gas exchange between mother and fetus occurs in the intervillous space. How does poorly oxygenated blood from the fetus reach the placental villi for this exchange?",
+        options: {
+            A: "Via the single umbilical vein",
+            B: "Via the two umbilical arteries",
+            C: "Via the vitelline duct",
+            D: "Via direct mixing with maternal blood"
+        },
+        correctAnswer: "B",
+        rationale: "The two umbilical arteries carry deoxygenated and waste-rich blood away from the fetus to the placenta. These arteries branch within the chorionic plate and enter the chorionic villi, where their capillaries come into close proximity with maternal blood in the intervillous space for exchange.",
+        source: "'Poorly oxygenated blood leaves the fetus via 2 umbilical arteries, which branch throughout the chorionic plate of the placenta.' (Placenta & Membranes Handout, Page 7)"
+    },
+    {
+        learningObjective: "LO4 (Placenta & Membranes): Describe the gross structure of the placenta and umbilical cord.",
+        question: "When examining the maternal surface of a delivered placenta, it has a rough, cobblestone appearance. These irregular convex areas are known as:",
+        options: {
+            A: "Chorionic villi",
+            B: "Cotyledons",
+            C: "Placental septa",
+            D: "Lacunae"
+        },
+        correctAnswer: "B",
+        rationale: "The maternal surface of the placenta is divided into 8-10 or more compartments called cotyledons by placental septa that project from the decidua basalis. Each cotyledon contains a network of chorionic villi.",
+        source: "'Maternal surface will appear dull red in color... It has a cobblestone appearance due to 8-10 cotyledons separated by septa.' (Placenta & Membranes Handout, Page 8)"
+    },
+    {
+        learningObjective: "LO4 (Placenta & Membranes): Describe the gross structure of the placenta and umbilical cord.",
+        question: "A cross-section of a normal umbilical cord at term should reveal which combination of blood vessels?",
+        options: {
+            A: "Two arteries and two veins",
+            B: "One artery and two veins",
+            C: "Two arteries and one vein",
+            D: "One artery and one vein"
+        },
+        correctAnswer: "C",
+        rationale: "A normal umbilical cord contains two umbilical arteries carrying deoxygenated blood from the fetus and one larger umbilical vein carrying oxygenated blood to the fetus. The vessels are surrounded by a protective mucoid connective tissue called Wharton's jelly.",
+        source: "'Umbilical Cord – the conduit for the umbilical vessels... Should contain 2 umbilical arteries & 1 umbilical vein...' (Placenta & Membranes Handout, Page 7)"
+    },
+    {
+        learningObjective: "LO4 (Placenta & Membranes): Describe the gross structure of the placenta and umbilical cord.",
+        question: "The fetal surface of the placenta is typically smooth, shiny, and gray. This appearance is due to it being covered by which membrane?",
+        options: {
+            A: "The chorion laeve",
+            B: "The decidua capsularis",
+            C: "The amnion",
+            D: "The yolk sac"
+        },
+        correctAnswer: "C",
+        rationale: "The fetal side of the placenta, which faces the fetus, is covered by the amnion. The large chorionic vessels can be seen coursing deep to the translucent amniotic membrane.",
+        source: "'Fetal surface will appear smooth, shiny, & gray because it is covered by the amnion.' (Placenta & Membranes Handout, Page 8)"
+    },
+    {
+        learningObjective: "LO5 (Placenta & Membranes): Discuss potential clinical problems that may arise with the umbilical cord, including cord compression, true knots, and number of vessels.",
+        question: "The finding of only one umbilical artery in a newborn is associated with an increased risk of what?",
+        options: {
+            A: "Maternal diabetes",
+            B: "Post-term delivery",
+            C: "Other congenital anomalies and aneuploidy",
+            D: "Dizygotic twinning"
+        },
+        correctAnswer: "C",
+        rationale: "The presence of a single umbilical artery (SUA) is a relatively common anomaly, occurring in about 1% of pregnancies. It serves as a soft marker for other underlying issues, with about 25% of affected infants having other congenital anomalies, particularly cardiac and renal defects, or chromosomal abnormalities.",
+        source: "'The presence of only 1 umbilical artery occurs in ~1% of pregnancies. This is associated with a 25% incidence of other congenital anomalies and aneuploidy.' (Placenta & Membranes Handout, Page 7)"
+    },
+    {
+        learningObjective: "LO5 (Placenta & Membranes): Discuss potential clinical problems that may arise with the umbilical cord, including cord compression, true knots, and number of vessels.",
+        question: "A true knot in the umbilical cord, if it tightens, can lead to fetal distress or death by which mechanism?",
+        options: {
+            A: "Causing maternal hypertension",
+            B: "Inducing preterm labor",
+            C: "Obstructing blood flow through the umbilical vessels",
+            D: "Leading to placental abruption"
+        },
+        correctAnswer: "C",
+        rationale: "A true knot can form if the fetus moves through a loop of the umbilical cord. While often loose and asymptomatic, if the knot tightens, it can compress the umbilical vessels, cutting off the supply of oxygen and nutrients to the fetus and preventing the removal of waste products, leading to anoxia and fetal death.",
+        source: "'In about 1% of full-term pregnancies, true knots form in the umbilical cord. If they tighten as the result of movement, they can cause anoxia & even fetal death.' (Placenta & Membranes Handout, Page 7)"
+    },
+    {
+        learningObjective: "LO5 (Placenta & Membranes): Discuss potential clinical problems that may arise with the umbilical cord, including cord compression, true knots, and number of vessels.",
+        question: "An excessively long umbilical cord (>70 cm) increases the risk of which of the following complications?",
+        options: {
+            A: "Placenta previa",
+            B: "Oligohydramnios",
+            C: "Nuchal cord (cord around the neck)",
+            D: "Placenta accreta"
+        },
+        correctAnswer: "C",
+        rationale: "A long umbilical cord has a higher likelihood of becoming entangled around the fetus, leading to a nuchal cord. It is also more prone to forming true knots and to prolapsing through the cervix during labor.",
+        source: "'Long umbilical cord (>70cm) Associated with knots, prolapse, and nuchal cord.' (Placenta Pathology Slides, Page 12)"
+    },
+    {
+        learningObjective: "LO6 (Placenta & Membranes): Discuss potential clinical problems that may arise with the placenta, including placenta previa, placenta accreta, placenta percreta, placenta abruption.",
+        question: "A pregnant woman at 34 weeks gestation presents with a sudden onset of severe, constant abdominal pain and vaginal bleeding. The uterus is rigid and tender on palpation. This clinical picture is most suggestive of:",
+        options: {
+            A: "Placenta previa",
+            B: "Placenta accreta",
+            C: "Placental abruption",
+            D: "Circumvallate placenta"
+        },
+        correctAnswer: "C",
+        rationale: "Placental abruption is the premature separation of the placenta from the uterine wall. The classic presentation is the abrupt onset of painful vaginal bleeding, in contrast to the painless bleeding of placenta previa. It is an obstetric emergency.",
+        source: "'Placenta Abruption - Separation of the placenta from its attachment to the uterus wall before birth - Often characterized by abrupt onset of painful bleeding.' (Placenta Slides, Page 48)"
+    },
+    {
+        learningObjective: "LO6 (Placenta & Membranes): Discuss potential clinical problems that may arise with the placenta, including placenta previa, placenta accreta, placenta percreta, placenta abruption.",
+        question: "Placenta percreta represents the most severe form of the placenta accreta spectrum. How is it defined?",
+        options: {
+            A: "The placenta completely covers the cervical os.",
+            B: "Chorionic villi attach to the surface of the myometrium.",
+            C: "Chorionic villi invade into the myometrium.",
+            D: "Chorionic villi penetrate the full thickness of the myometrium and may invade adjacent organs."
+        },
+        correctAnswer: "D",
+        rationale: "Placenta percreta is the most invasive form of abnormal placental implantation, where the villi penetrate through the entire uterine wall (myometrium and serosa) and can invade nearby structures like the bladder.",
+        source: "'Placenta Percreta – abnormal implantation where chorionic villi penetrate the full thickness of the myometrium to or through the perimetrium.' (Placenta & Membranes Handout, Page 6)"
+    },
+    {
+        learningObjective: "LO6 (Placenta & Membranes): Discuss potential clinical problems that may arise with the placenta, including placenta previa, placenta accreta, placenta percreta, placenta abruption.",
+        question: "Why is a cesarean delivery necessary in cases of total placenta previa?",
+        options: {
+            A: "To prevent painful contractions.",
+            B: "The placenta mechanically obstructs the birth canal, and vaginal delivery would cause catastrophic hemorrhage.",
+            C: "The risk of uterine rupture is too high.",
+            D: "The umbilical cord is always abnormally inserted in these cases."
+        },
+        correctAnswer: "B",
+        rationale: "In total placenta previa, the placenta completely covers the internal os of the cervix. As the cervix begins to dilate during labor for a vaginal delivery, it would cause the placenta to tear away from the uterine wall, resulting in severe, life-threatening hemorrhage for both the mother and the fetus.",
+        source: "'Placenta Previa – abnormal implantation where placenta covers internal os of cervix... This forms a mechanical barrier to birth. The fetus must be delivered by cesarean section...' (Placenta & Membranes Handout, Page 6)"
+    },
+    {
+        learningObjective: "LO7 (Placenta & Membranes): Discuss the embryological basis/cause and clinical presentation of polyhydramnios, oligohydramnios, and amniotic band syndrome.",
+        question: "Polyhydramnios, an excess of amniotic fluid, can be caused by fetal anomalies that interfere with which process?",
+        options: {
+            A: "Fetal urination",
+            B: "Fetal swallowing",
+            C: "Fetal cardiac output",
+            D: "Fetal hematopoiesis"
+        },
+        correctAnswer: "B",
+        rationale: "Amniotic fluid volume is a balance between production (fetal urine) and removal (fetal swallowing). Conditions that prevent the fetus from swallowing, such as GI defects (e.g., esophageal atresia) or CNS disorders that impair the swallowing reflex, lead to an accumulation of fluid, resulting in polyhydramnios.",
+        source: "'Primary causes: ...congenital malformations, including CNS disorders... and GI defects (e.g., esophageal & duodenal atresias) that prevent the fetus from swallowing.' (Placenta & Membranes Handout, Page 3)"
+    },
+    {
+        learningObjective: "LO7 (Placenta & Membranes): Discuss the embryological basis/cause and clinical presentation of polyhydramnios, oligohydramnios, and amniotic band syndrome.",
+        question: "A newborn is found to have ring constrictions and amputation of several digits. This is a classic presentation of amniotic band syndrome, which is classified as what type of birth defect?",
+        options: {
+            A: "Malformation",
+            B: "Disruption",
+            C: "Deformation",
+            D: "Syndrome"
+        },
+        correctAnswer: "B",
+        rationale: "Amniotic band syndrome is a disruption, meaning it is caused by an extrinsic factor acting on an originally normally developing structure. A rupture of the amnion creates fibrous bands that can float in the amniotic cavity and ensnare fetal parts, leading to constrictions, amputations, and other defects.",
+        source: "'Amniotic band syndrome is an example of a disruption, where the fetal structure is growing normally and then growth is arrested due to something which disrupts the process.' (Placenta & Membranes Handout, Page 6)"
+    },
+    {
+        learningObjective: "LO7 (Placenta & Membranes): Discuss the embryological basis/cause and clinical presentation of polyhydramnios, oligohydramnios, and amniotic band syndrome.",
+        question: "Oligohydramnios due to bilateral renal agenesis leads to a sequence of defects including pulmonary hypoplasia and limb deformities. This constellation of findings is known as:",
+        options: {
+            A: "VACTERL association",
+            B: "Down syndrome",
+            C: "Potter syndrome (or sequence)",
+            D: "Amniotic band syndrome"
+        },
+        correctAnswer: "C",
+        rationale: "Potter syndrome (or sequence) is the typical phenotype resulting from severe oligohydramnios. The primary cause is often bilateral renal agenesis, which means no fetal urine is produced. The lack of amniotic fluid leads to fetal compression (causing limb deformities and Potter facies) and pulmonary hypoplasia because the lungs cannot develop properly without fluid.",
+        source: "'Potter syndrome is a condition that results in abnormal kidney growth - Causes oligohydramnios > Pulmonary hypoplasia > Limb deformities such as clubbed feet.' (Placenta Slides, Page 34)"
+    },
+    {
+        learningObjective: "LO8 (Placenta & Membranes): Compare and contrast amniocentesis and chorionic villus sampling. Discuss when each is performed, and what specifically is being examined.",
+        question: "A primary advantage of chorionic villus sampling (CVS) over amniocentesis is that it:",
+        options: {
+            A: "Carries a lower risk of miscarriage.",
+            B: "Can be performed earlier in the pregnancy.",
+            C: "Can detect neural tube defects.",
+            D: "Samples fetal cells directly."
+        },
+        correctAnswer: "B",
+        rationale: "Chorionic villus sampling is typically performed between 10-12 weeks of gestation, whereas amniocentesis is usually done after 15 weeks. This allows for earlier diagnosis of chromosomal abnormalities, giving the parents more time to make decisions.",
+        source: "'Chorionic villus sampling is a prenatal test... The procedure is performed ~10-12 weeks gestation, which is earlier than amniocentesis.' (Placenta & Membranes Handout, Page 6)"
+    },
+    {
+        learningObjective: "LO8 (Placenta & Membranes): Compare and contrast amniocentesis and chorionic villus sampling. Discuss when each is performed, and what specifically is being examined.",
+        question: "Which of the following can be detected by measuring alpha-fetoprotein (AFP) levels in amniotic fluid obtained via amniocentesis, but NOT by CVS?",
+        options: {
+            A: "Trisomy 21 (Down syndrome)",
+            B: "Cystic fibrosis",
+            C: "X-linked disorders",
+            D: "Neural tube defects (e.g., spina bifida)"
+        },
+        correctAnswer: "D",
+        rationale: "Chorionic villus sampling and amniocentesis both analyze fetal cells for chromosomal and genetic disorders. However, only amniocentesis can be used to screen for neural tube defects, as this requires measuring alpha-fetoprotein that has leaked from the open defect into the amniotic fluid. CVS samples placental tissue and does not test the amniotic fluid itself.",
+        source: "'A high concentration of α-fetoprotein in the amniotic fluid can be a strong indicator of neural tube or ventral (anterior) body wall defects.' (Placenta & Membranes Handout, Page 3)"
+    },
+    {
+        learningObjective: "LO8 (Placenta & Membranes): Compare and contrast amniocentesis and chorionic villus sampling. Discuss when each is performed, and what specifically is being examined.",
+        question: "Chorionic villus sampling (CVS) involves obtaining a biopsy of which tissue for genetic analysis?",
+        options: {
+            A: "Amniotic membrane",
+            B: "Decidua basalis",
+            C: "Trophoblastic tissue (chorionic villi)",
+            D: "Fetal liver"
+        },
+        correctAnswer: "C",
+        rationale: "CVS directly samples the chorionic villi, which are derived from the trophoblast and are part of the fetal component of the placenta. Since these cells are of fetal origin and are rapidly dividing, they are ideal for karyotyping and genetic analysis.",
+        source: "'Biopsies of trophoblastic tissue is obtained.' (Prenatal Timeline Slides, Page 27)"
+    },
+    {
+        learningObjective: "LO9 (Placenta & Membranes): Discuss sharing of the placenta & fetal membranes in regards to dizygotic & monozygotic twins.",
+        question: "Dizygotic (fraternal) twins always result in which placental and membrane configuration?",
+        options: {
+            A: "Monochorionic, monoamniotic",
+            B: "Monochorionic, diamniotic",
+            C: "Dichorionic, diamniotic",
+            D: "Dichorionic, monoamniotic"
+        },
+        correctAnswer: "C",
+        rationale: "Dizygotic twins arise from two separate eggs fertilized by two separate sperm. Each zygote develops its own set of membranes and placenta. Therefore, they are always dichorionic (two chorions) and diamniotic (two amnions). The placentas may fuse if the implantation sites are close, but they remain functionally separate.",
+        source: "'Dizygotic Twins... Dichorionic... Diamniotic... 2 chorions, 2 amnions, 2 placentas.' (Placenta Slides, Page 60)"
+    },
+    {
+        learningObjective: "LO9 (Placenta & Membranes): Discuss sharing of the placenta & fetal membranes in regards to dizygotic & monozygotic twins.",
+        question: "The highest-risk type of monozygotic twinning, associated with cord entanglement, is characterized by the sharing of both the chorion and the amnion. This configuration is known as:",
+        options: {
+            A: "Dichorionic, diamniotic",
+            B: "Monochorionic, diamniotic",
+            C: "Monochorionic, monoamniotic",
+            D: "Conjoined twins"
+        },
+        correctAnswer: "C",
+        rationale: "A monochorionic, monoamniotic pregnancy results from a late cleavage of the embryonic disc (days 8-13), after both the chorion and amnion have formed. The twins share a single placenta and a single amniotic sac, placing them at high risk for mortality due to entanglement of their umbilical cords.",
+        source: "'Late cleavage (days 8-13) - Monochorionic, monoamniotic - 1 chorion, 1 amnion.' (Placenta Slides, Page 61)"
+    },
+    {
+        learningObjective: "LO9 (Placenta & Membranes): Discuss sharing of the placenta & fetal membranes in regards to dizygotic & monozygotic twins.",
+        question: "Conjoined twins are a rare complication of monozygotic twinning that occurs as a result of:",
+        options: {
+            A: "Fusion of two separate dizygotic embryos",
+            B: "Cleavage of the morula at day 2",
+            C: "Incomplete cleavage of the embryonic disc after day 13",
+            D: "Cleavage of the blastocyst at day 5"
+        },
+        correctAnswer: "C",
+        rationale: "Conjoined twins result from a very late and incomplete splitting of the embryonic disc, occurring after day 13 of development. This results in a monochorionic, monoamniotic pregnancy where the twins' bodies are physically joined.",
+        source: "'Conjoined Twins - Occurs when the embryonic disc doesn't completely divide - Monochorionic, monoamniotic.' (Placenta Slides, Page 62) and 'Incomplete Cleavage of Disc (Days 13+) – 1 Chorion, 1 Amnion' (Placenta & Membranes Handout, Page 8)"
+    },
+    // Placenta Pathology - 9 Questions
+    {
+        learningObjective: "LO1 (Placenta Pathology): Describe abnormalities of the umbilical cord including insertion, inflammation, number of vessels, vascular thrombosis and length.",
+        question: "A pathologist examining an umbilical cord finds inflammation of the cord itself, including neutrophils within the walls of the umbilical vessels and extending into the Wharton jelly. What is the correct term for this condition?",
+        options: {
+            A: "Chorioamnionitis",
+            B: "Villitis",
+            C: "Deciduitis",
+            D: "Funisitis"
+        },
+        correctAnswer: "D",
+        rationale: "Funisitis is the specific term for inflammation of the umbilical cord. It is part of the fetal inflammatory response, often seen in the context of an ascending amniotic fluid infection (chorioamnionitis).",
+        source: "'Inflammation of umbilical cord = funisitis. Neutrophils in wall of vessels. Inflammation may extend into Wharton jelly.' (Placenta Pathology Slides, Page 52)"
+    },
+    {
+        learningObjective: "LO1 (Placenta Pathology): Describe abnormalities of the umbilical cord including insertion, inflammation, number of vessels, vascular thrombosis and length.",
+        question: "A short umbilical cord (<30cm) is a risk factor for which of the following obstetric complications?",
+        options: {
+            A: "Cord prolapse",
+            B: "True knots",
+            C: "Placental abruption",
+            D: "Polyhydramnios"
+        },
+        correctAnswer: "C",
+        rationale: "A short umbilical cord can create tension during fetal descent or movement, which can pull on the placenta and cause it to prematurely separate from the uterine wall, a condition known as placental abruption.",
+        source: "'Short umbilical cord (<30cm) Associated with abruption.' (Placenta Pathology Slides, Page 13)"
+    },
+    {
+        learningObjective: "LO1 (Placenta Pathology): Describe abnormalities of the umbilical cord including insertion, inflammation, number of vessels, vascular thrombosis and length.",
+        question: "An umbilical cord in which the vessels branch before they insert onto the surface of the chorionic plate, leaving them unprotected by Wharton's jelly, is known as what type of insertion?",
+        options: {
+            A: "Velamentous",
+            B: "Marginal",
+            C: "Eccentric",
+            D: "Furcate"
+        },
+        correctAnswer: "D",
+        rationale: "A furcate (fork-like) cord insertion is defined by the branching of the umbilical vessels before they reach the placental surface. These exposed vessels are vulnerable to compression, thrombosis, and tearing.",
+        source: "'Furcate (fork-like) cord insertion - Umbilical vessels branch before cord inserts onto placental surface.' (Placenta Pathology Slides, Page 5)"
+    },
+    {
+        learningObjective: "LO2 (Placenta Pathology): Describe abnormalities of the chorion including calcification, infarction, abruption, hydrops, complete and partial hydatidiform mole and accreta.",
+        question: "A placenta from a patient with severe pre-eclampsia is examined. The maternal surface shows multiple, firm, pale tan-white lesions. These are most likely:",
+        options: {
+            A: "Calcifications",
+            B: "Placental infarcts",
+            C: "Cotyledons",
+            D: "Subamniotic hemorrhage"
+        },
+        correctAnswer: "B",
+        rationale: "Placental infarcts are areas of ischemic necrosis of villi due to obstruction of maternal blood flow from the spiral arteries. They are common in conditions of maternal vascular malperfusion, such as pre-eclampsia, and appear as pale, firm areas.",
+        source: "Image and description of 'Multiple infarcts and fibrosis' associated with 'Toxemia of pregnancy: Pre-eclampsia'. (Placenta Pathology Slides, Page 19)"
+    },
+    {
+        learningObjective: "LO2 (Placenta Pathology): Describe abnormalities of the chorion including calcification, infarction, abruption, hydrops, complete and partial hydatidiform mole and accreta.",
+        question: "A hydropic placenta is grossly swollen and edematous. This finding can be associated with all of the following conditions EXCEPT:",
+        options: {
+            A: "Rh(-) incompatibility",
+            B: "TORCH infections",
+            C: "Placental abruption",
+            D: "Alpha thalassemia"
+        },
+        correctAnswer: "C",
+        rationale: "A hydropic placenta is a feature of hydrops fetalis, a condition of severe fetal edema. It is caused by severe fetal anemia (as in Rh incompatibility or alpha thalassemia) or infections (TORCH). Placental abruption is a cause of bleeding and is not associated with a hydropic placenta.",
+        source: "'Hydropic placenta with swollen but recognizable cotyledons Associated with: Rh(-) incompatibility, TORCH infections, Alpha thalassemia...' (Placenta Pathology Slides, Page 22)"
+    },
+    {
+        learningObjective: "LO2 (Placenta Pathology): Describe abnormalities of the chorion including calcification, infarction, abruption, hydrops, complete and partial hydatidiform mole and accreta.",
+        question: "A key microscopic feature that helps distinguish a partial hydatidiform mole from a complete mole is:",
+        options: {
+            A: "The presence of two populations of villi (large and hydropic mixed with small and fibrotic)",
+            B: "Markedly elevated hCG levels",
+            C: "Complete absence of fetal tissue",
+            D: "Diffuse circumferential trophoblastic proliferation"
+        },
+        correctAnswer: "A",
+        rationale: "Partial moles are characterized by having two distinct populations of chorionic villi: some are large and swollen (hydropic), while others are small and fibrotic. In contrast, complete moles show diffuse hydropic swelling of virtually all villi. Fetal tissue may also be present in partial moles.",
+        source: "'Partial Hydatiform Mole... Microscopic: Two populations of villi, large hydropic villi and small fibrotic villi.' (Placenta Pathology Slides, Page 29)"
+    },
+    {
+        learningObjective: "LO3 (Placenta Pathology): Compare and contrast abnormalities of the amnion including chorioamnionitis, presence of meconium, size of amniotic cavity and multiple amnions.",
+        question: "A term placenta is delivered and the fetal surface is noted to be stained a greenish-brown color. Microscopic examination shows pigmented macrophages within the amnion and chorion. What is the cause of this finding?",
+        options: {
+            A: "Placental infarction",
+            B: "Maternal hemorrhage",
+            C: "Chorioamnionitis",
+            D: "Meconium staining"
+        },
+        correctAnswer: "D",
+        rationale: "Meconium is the first fetal stool, which is dark green. Passage of meconium in utero can occur due to fetal stress and will stain the amniotic fluid, umbilical cord, and fetal membranes. The presence of meconium-laden macrophages indicates the staining has been present for at least 24-48 hours.",
+        source: "'Meconium... Macroscopic: Green-brown staining of the cord and membranes... Meconium laden macrophages in the amnion, chorion, and umbilical cord stroma.' (Placenta Pathology Slides, Pages 40-41)"
+    },
+    {
+        learningObjective: "LO3 (Placenta Pathology): Compare and contrast abnormalities of the amnion including chorioamnionitis, presence of meconium, size of amniotic cavity and multiple amnions.",
+        question: "Amniotic fluid infection sequence, or chorioamnionitis, is most commonly caused by which route of infection?",
+        options: {
+            A: "Hematogenous spread from a maternal systemic infection",
+            B: "Ascending infection from the cervicovaginal flora",
+            C: "Transplacental infection from the fetus",
+            D: "Infection following an invasive procedure like amniocentesis"
+        },
+        correctAnswer: "B",
+        rationale: "The most common cause of chorioamnionitis is an ascending infection, where bacteria from the mother's vagina and cervix (e.g., Ureaplasma, E. coli) travel up into the amniotic cavity, leading to inflammation of the fetal membranes.",
+        source: "'Amniotic Fluid Infection Sequence - Ascending infection of the amniotic cavity by cervicovaginal flora.' (Placenta Pathology Slides, Page 51) and 'Ascending infection more common.' (Placenta Pathology Slides, Page 53)"
+    },
+    {
+        learningObjective: "LO3 (Placenta Pathology): Compare and contrast abnormalities of the amnion including chorioamnionitis, presence of meconium, size of amniotic cavity and multiple amnions.",
+        question: "In a diamniotic, dichorionic twin pregnancy, the dividing membrane between the two fetuses will be composed of what layers?",
+        options: {
+            A: "Two layers of amnion back-to-back",
+            B: "Two layers of chorion back-to-back",
+            C: "Two amnions with an intervening layer of chorion",
+            D: "A single layer of amnion"
+        },
+        correctAnswer: "C",
+        rationale: "In a dichorionic pregnancy, each fetus has its own chorionic sac. When these sacs are adjacent, the dividing membrane consists of the two amniotic layers, one from each sac, with two layers of chorionic tissue fused in between (Amnion-Chorion-Chorion-Amnion).",
+        source: "'Histology of dividing membrane of diamnionic dichorionic twin placenta: Amnion - Chorion - Amnion.' (Placenta Pathology Slides, Page 55)"
+    },
+    // Immunology of Pregnancy - 18 Questions
+    {
+        learningObjective: "LO1 (Immunology): Discuss how an embryo/fetus, as a semi-allograft, is protected from attack by the maternal immune system.",
+        question: "The concept of the fetus as a 'semi-allograft' arises because it expresses antigens from which source(s)?",
+        options: {
+            A: "Maternal antigens only",
+            B: "Paternal antigens only",
+            C: "Both maternal and paternal antigens",
+            D: "Novel antigens not found in either parent"
+        },
+        correctAnswer: "C",
+        rationale: "The fetus inherits half of its genetic material from the father and half from the mother. Consequently, it expresses paternal MHC and other antigens that are foreign to the maternal immune system, alongside maternal antigens that are recognized as self. This dual antigenicity is the basis for its status as a semi-allograft.",
+        source: "'An embryo/fetus expresses both maternal and paternal antigens, making the infant a semi-allograft (transplant).' (Immunology of Pregnancy Slides, Page 8)"
+    },
+    {
+        learningObjective: "LO1 (Immunology): Discuss how an embryo/fetus, as a semi-allograft, is protected from attack by the maternal immune system.",
+        question: "If the maternal immune system were to recognize and respond to paternal antigens on the fetus as it would to a typical organ transplant, what would be the most likely outcome?",
+        options: {
+            A: "Accelerated fetal growth",
+            B: "Development of maternal autoimmune disease",
+            C: "Failure of implantation or miscarriage",
+            D: "Successful and uncomplicated pregnancy"
+        },
+        correctAnswer: "C",
+        rationale: "A standard immune response to foreign antigens, such as those on an allograft, involves T-cell mediated rejection. If the maternal immune system mounted such an attack against the paternal antigens of the embryo/fetus, it would result in immune-mediated rejection, leading to implantation failure or loss of the pregnancy (miscarriage).",
+        source: "'The foreign antigens... could be recognized by the mother's immune system as danger signals, prompting an immune response resulting in failure of implantation or miscarriage.' (Immunology of Pregnancy Slides, Page 8)"
+    },
+    {
+        learningObjective: "LO1 (Immunology): Discuss how an embryo/fetus, as a semi-allograft, is protected from attack by the maternal immune system.",
+        question: "Which statement best describes the fundamental immunological challenge of pregnancy?",
+        options: {
+            A: "The mother must completely suppress her entire immune system to prevent fetal rejection.",
+            B: "The fetus must develop an immune system capable of fighting off maternal cells.",
+            C: "The maternal immune system must tolerate paternal antigens on the fetus while still protecting against pathogens.",
+            D: "The maternal immune system must eliminate all paternal antigens from the placental circulation."
+        },
+        correctAnswer: "C",
+        rationale: "The 'unique complexity' of pregnancy immunology is the need for a delicate balance. The mother's immune system cannot be globally suppressed, as this would leave her vulnerable to infections. Instead, it must adapt to create a state of localized tolerance specifically towards the fetus, while maintaining systemic immunosurveillance and protection against microbes.",
+        source: "'The maternal immune system should be able to adapt to protect the embryo/fetus from immune attack, while at the same maintaining protection from pathogens and maintaining immunosurveillance.' (Immunology of Pregnancy Slides, Page 8)"
+    },
+    {
+        learningObjective: "LO2 (Immunology): Compare and contrast how the process of blastocyst implantation has features of tumor immunology and transplant immunology.",
+        question: "The invasive nature of the trophoblast during implantation, where it breaches the endometrial barrier and remodels maternal spiral arteries, is a process that shares similarities with:",
+        options: {
+            A: "The encapsulation of a benign growth",
+            B: "The process of wound healing by secondary intention",
+            C: "The metastatic invasion of malignant tumor cells",
+            D: "The rejection of a skin graft"
+        },
+        correctAnswer: "C",
+        rationale: "The trophoblast's ability to invade maternal tissue, break down the extracellular matrix, and tap into the maternal blood supply is a highly controlled process that utilizes many of the same molecular mechanisms (e.g., secretion of proteases) that are used by malignant cancer cells during tumor invasion and metastasis.",
+        source: "'In invasion... This barrier-breaching process is similar to the process used by malignant cells.' (Immunology of Pregnancy Slides, Page 19) and 'The way that this happens has certain features that are more like tumor immunology than transplant immunology' (Immunology of Pregnancy Slides, Page 9)"
+    },
+    {
+        learningObjective: "LO2 (Immunology): Compare and contrast how the process of blastocyst implantation has features of tumor immunology and transplant immunology.",
+        question: "Unlike a transplanted organ, which is often subject to immune rejection, the embryo/fetus employs mechanisms to evade the maternal immune system. This evasion strategy is more analogous to the mechanisms used by:",
+        options: {
+            A: "Pathogenic bacteria",
+            B: "Successful tumors",
+            C: "Benign cysts",
+            D: "Inert medical implants"
+        },
+        correctAnswer: "B",
+        rationale: "Successful tumors develop strategies to evade destruction by the host's immune system, such as expressing molecules that inhibit T-cell function (e.g., PD-L1) or creating a locally immunosuppressive microenvironment. The placenta and fetus use remarkably similar strategies to induce tolerance and evade the maternal immune system.",
+        source: "'The way that this happens has certain features that are more like tumor immunology than transplant immunology.' (Immunology of Pregnancy Slides, Page 9)"
+    },
+    {
+        learningObjective: "LO2 (Immunology): Compare and contrast how the process of blastocyst implantation has features of tumor immunology and transplant immunology.",
+        question: "The initial phase of implantation requires a pro-inflammatory response in the endometrium, similar to tissue injury and repair. This controlled inflammation helps the blastocyst to attach and invade. This initial inflammatory requirement contrasts with the typical goal in:",
+        options: {
+            A: "Tumor immunology, where inflammation is always beneficial for the host.",
+            B: "Transplant immunology, where the goal is to prevent inflammation and rejection from the very beginning.",
+            C: "Autoimmune disease, where inflammation is the therapeutic target.",
+            D: "Infection control, where inflammation is a secondary response."
+        },
+        correctAnswer: "B",
+        rationale: "In solid organ transplantation, the clinical goal is to suppress the recipient's immune system to prevent an inflammatory rejection cascade against the foreign graft. In contrast, a successful pregnancy requires an initial, tightly controlled pro-inflammatory (Th1) state for the blastocyst to implant properly.",
+        source: "'There is a Th1-type pro-inflammatory process of tissue injury and repair, with immunological 'cross-talk' between the trophoblast and the endometrium.' (Immunology of Pregnancy Slides, Page 17)"
+    },
+    {
+        learningObjective: "LO3 (Immunology): Discuss how multiple reinforcing pathways interact to achieve and maintain tolerance in the normal implantation process.",
+        question: "Which cell type plays a critical role in promoting maternal tolerance to the fetus by suppressing effector T-cell responses against paternal antigens?",
+        options: {
+            A: "Cytotoxic T lymphocytes (CTLs)",
+            B: "Regulatory T cells (Tregs)",
+            C: "B cells",
+            D: "Th1 helper cells"
+        },
+        correctAnswer: "B",
+        rationale: "Regulatory T cells (Tregs) are a specialized subset of T cells whose primary function is to maintain immune homeostasis and self-tolerance. During pregnancy, there is an expansion of Tregs that recognize paternal antigens. These cells actively suppress potentially harmful effector T cells, forming a key part of the 'multiple reinforcing pathways' that protect the fetus.",
+        source: "'Treg cells that recognize paternal antigens protect fetal cells from attack from the maternal immune system.' (Immunology of Pregnancy Slides, Page 28)"
+    },
+    {
+        learningObjective: "LO3 (Immunology): Discuss how multiple reinforcing pathways interact to achieve and maintain tolerance in the normal implantation process.",
+        question: "Maternal tolerance to the fetus is described as being multifactorial, involving 'multiple reinforcing pathways'. What does this concept imply?",
+        options: {
+            A: "A single, powerful mechanism is responsible for preventing rejection.",
+            B: "There are several redundant and interacting mechanisms that work together to protect the fetus.",
+            C: "The fetus is physically isolated and never interacts with the maternal immune system.",
+            D: "The maternal immune system is globally suppressed during pregnancy."
+        },
+        correctAnswer: "B",
+        rationale: "The term 'multiple reinforcing pathways' means that fetal survival is not dependent on a single point of failure. Instead, a combination of factors—including hormonal influences, specialized placental cells, unique HLA expression, the function of Tregs, and enzymes like IDO1—work in concert to ensure the fetus is not rejected.",
+        source: "'Maternal tolerance to the blastocyst, embryo, and fetus is multifactorial, a concept called multiple reinforcing pathways... No single mechanism does the job.' (Immunology of Pregnancy Slides, Page 21)"
+    },
+    {
+        learningObjective: "LO3 (Immunology): Discuss how multiple reinforcing pathways interact to achieve and maintain tolerance in the normal implantation process.",
+        question: "Which non-classical MHC molecule, expressed by trophoblast cells, is thought to protect the fetus from attack by maternal NK cells?",
+        options: {
+            A: "HLA-A",
+            B: "HLA-B",
+            C: "HLA-DR",
+            D: "HLA-G"
+        },
+        correctAnswer: "D",
+        rationale: "While not explicitly detailed in the provided slides, HLA-G is a well-established component of the 'multiple reinforcing pathways'. Trophoblast cells do not express classical, highly polymorphic MHC molecules that would trigger T-cell rejection. Instead, they express non-classical molecules like HLA-G, which interacts with inhibitory receptors on maternal immune cells, particularly NK cells, to prevent an attack.",
+        source: "'Various cytokines, regulatory T cells (Tregs), HLA-G, and an enzyme called indoleamine 2,3-dioxygenase 1 (IDO1) work together.' (Immunology of Pregnancy Slides, Page 21)"
+    },
+    {
+        learningObjective: "LO4 (Immunology): Discuss the role of IDO1 in implantation, and identify consequences of IDO1 inhibition in early pregnancy.",
+        question: "What is the direct biochemical function of the enzyme Indoleamine 2,3-dioxygenase 1 (IDO1) at the maternal-fetal interface?",
+        options: {
+            A: "It synthesizes progesterone.",
+            B: "It catalyzes the oxidation of L-tryptophan.",
+            C: "It breaks down maternal IgG antibodies.",
+            D: "It promotes pro-inflammatory cytokine production."
+        },
+        correctAnswer: "B",
+        rationale: "IDO1 is an enzyme that initiates the first and rate-limiting step in the degradation of the essential amino acid L-tryptophan along the kynurenine pathway. This local depletion of tryptophan is a key mechanism for inducing T-cell tolerance.",
+        source: "'IDO1 catalyzes L-tryptophan oxidation.' (Immunology of Pregnancy Slides, Page 22)"
+    },
+    {
+        learningObjective: "LO4 (Immunology): Discuss the role of IDO1 in implantation, and identify consequences of IDO1 inhibition in early pregnancy.",
+        question: "Based on its crucial role in maternal tolerance, what would be the predictable effect of administering a potent IDO1 inhibitor to a pregnant mammal during early gestation?",
+        options: {
+            A: "Prevention of miscarriage",
+            B: "Termination of the pregnancy",
+            C: "Acceleration of fetal growth",
+            D: "Induction of twins"
+        },
+        correctAnswer: "B",
+        rationale: "IDO1 is essential for creating the immunosuppressive environment needed for the embryo to successfully invade the endometrium and avoid rejection. Blocking its function removes this critical protective mechanism, leading to a maternal immune attack on the fetus and subsequent termination of the pregnancy.",
+        source: "'Inhibiting IDO will end pregnancy.' (Immunology of Pregnancy Slides, Page 22)"
+    },
+    {
+        learningObjective: "LO4 (Immunology): Discuss the role of IDO1 in implantation, and identify consequences of IDO1 inhibition in early pregnancy.",
+        question: "The metabolites produced from IDO1's activity on L-tryptophan are themselves immunosuppressive. How do they affect T-cell responses?",
+        options: {
+            A: "They block the conversion of Tregs into cytotoxic T cells.",
+            B: "They activate cytotoxic T cells and block Tregs.",
+            C: "They promote the differentiation and activation of Tregs.",
+            D: "They have no effect on T cells."
+        },
+        correctAnswer: "C",
+        rationale: "In addition to tryptophan starvation, the products of tryptophan catabolism (kynurenines) are immunologically active. They suppress cytotoxic T-cell responses and promote the development and function of regulatory T cells (Tregs), further reinforcing the state of tolerance.",
+        source: "'Oxidized L-tryptophan metabolites are immunosuppressive, affecting cytotoxic T cell responses by differentiation and activation of Tregs...' (Immunology of Pregnancy Slides, Page 22)"
+    },
+    {
+        learningObjective: "LO5 (Immunology): Describe the positive and negative effects of inflammation and immune system activation in 3 stages of pregnancy. Describe hemolytic disease of the newborn.",
+        question: "A successful pregnancy involves distinct immunological stages. Which stage is characterized by a Th1-type pro-inflammatory state that facilitates implantation and placenta formation?",
+        options: {
+            A: "The first stage (implantation)",
+            B: "The second stage (fetal growth)",
+            C: "The third stage (labor and delivery)",
+            D: "The postpartum period"
+        },
+        correctAnswer: "A",
+        rationale: "The very beginning of pregnancy, including implantation and placentation, is an invasive process that requires a pro-inflammatory (Th1-dominant) environment. This controlled inflammation is necessary for tissue remodeling and the establishment of the maternal blood supply to the placenta.",
+        source: "'First requires a Th1-type pro-inflammatory state interacting with the innate immune system and the maternal endocrine system for implantation and formation of the placenta.' (Immunology of Pregnancy Slides, Page 15)"
+    },
+    {
+        learningObjective: "LO5 (Immunology): Describe the positive and negative effects of inflammation and immune system activation in 3 stages of pregnancy. Describe hemolytic disease of the newborn.",
+        question: "The transport of maternal IgG across the placenta via the Brambell receptor (FcRn) is a vital process for passive immunity. However, what is a significant negative consequence of this non-selective transport?",
+        options: {
+            A: "It can lead to maternal anemia.",
+            B: "It can suppress the development of the fetal immune system.",
+            C: "It allows for the transfer of pathogenic autoantibodies, causing fetal disease.",
+            D: "It prevents the transfer of essential nutrients."
+        },
+        correctAnswer: "C",
+        rationale: "The FcRn transport system is not able to distinguish between protective antibodies and pathogenic autoantibodies. Therefore, if a mother has an autoimmune disease mediated by IgG (e.g., neonatal lupus, myasthenia gravis), these harmful antibodies will be actively transported to the fetus, potentially causing disease in the newborn.",
+        source: "'There's no mechanism in place to protect the fetus from maternal pathologic antibodies.' (Immunology of Pregnancy Slides, Page 28)"
+    },
+    {
+        learningObjective: "LO5 (Immunology): Describe the positive and negative effects of inflammation and immune system activation in 3 stages of pregnancy. Describe hemolytic disease of the newborn.",
+        question: "What immunological event initiates the process of labor and delivery?",
+        options: {
+            A: "A shift to a strong anti-inflammatory (Th2) state",
+            B: "A second pro-inflammatory state involving the innate immune system",
+            C: "Complete suppression of the maternal immune system",
+            D: "Activation of the fetal immune system against the mother"
+        },
+        correctAnswer: "B",
+        rationale: "While the second trimester is anti-inflammatory, the onset of labor is triggered by a switch back to a pro-inflammatory state. This inflammation, involving both fetal and maternal components like the NF-κB pathway, is necessary to initiate uterine contractions and delivery.",
+        source: "'Third, there's a second pro-inflammatory state that results in labor and delivery.' (Immunology of Pregnancy Slides, Page 15)"
+    },
+    {
+        learningObjective: "LO6 (Immunology): Identify some of the more common infectious complications of pregnancy.",
+        question: "Which of the following infections is classically included in the TORCH acronym, representing congenital infections that can cause severe adverse fetal outcomes?",
+        options: {
+            A: "Influenza",
+            B: "Malaria",
+            C: "Rubella",
+            D: "Listeriosis"
+        },
+        correctAnswer: "C",
+        rationale: "TORCH is an acronym for a group of congenital infections. The 'R' stands for Rubella (German measles), which can cause a classic triad of birth defects if the mother is infected during early pregnancy.",
+        source: "'TORCH infections are caused by Toxoplasma, Rubella, Cytomegalovirus, Herpes simplex.' (Immunology of Pregnancy Slides, Page 10) and 'Severe adverse fetal outcomes (TORCH, etc.) ... Rubella' (Immunology of Pregnancy Slides, Page 38)"
+    },
+    {
+        learningObjective: "LO6 (Immunology): Identify some of the more common infectious complications of pregnancy.",
+        question: "Although pregnancy does not cause global immunosuppression, the immunological shifts can lead to increased maternal susceptibility or severity for certain infections. Which of the following infections is known to have increased severity in pregnant women?",
+        options: {
+            A: "Common cold (Rhinovirus)",
+            B: "Influenza",
+            C: "Norovirus",
+            D: "Rotavirus"
+        },
+        correctAnswer: "B",
+        rationale: "Pregnant women are more susceptible to severe complications from influenza virus infection compared to non-pregnant women. This is due to the complex alterations in the maternal immune system, particularly changes in T-cell and innate immunity.",
+        source: "'Increased maternal severity... Influenza.' (Immunology of Pregnancy Slides, Page 37)"
+    },
+    {
+        learningObjective: "LO6 (Immunology): Identify some of the more common infectious complications of pregnancy.",
+        question: "Which of the following is NOT considered a TORCH infection?",
+        options: {
+            A: "Toxoplasmosis",
+            B: "Rubella",
+            C: "Cytomegalovirus",
+            D: "Malaria"
+        },
+        correctAnswer: "D",
+        rationale: "The TORCH acronym stands for Toxoplasmosis, Other (e.g., Syphilis, HIV), Rubella, Cytomegalovirus, and Herpes simplex virus. While Malaria can have severe adverse outcomes in pregnancy, it is not traditionally part of the core TORCH group.",
+        source: "'Severe adverse fetal outcomes (TORCH, etc.)' list includes the core members and lists Malaria under 'Others'. (Immunology of Pregnancy Slides, Page 38)"
+    }
+];
+
+    const quizContainer = document.getElementById('quiz-container');
+    const themeToggleButton = document.getElementById('theme-toggle-button');
+    const bodyElement = document.body;
+
+    function applyTheme(theme) {
+        if (theme === 'light') {
+            bodyElement.classList.add('light-theme');
+            themeToggleButton.textContent = 'Switch to Dark Mode';
+        } else {
+            bodyElement.classList.remove('light-theme');
+            themeToggleButton.textContent = 'Switch to Light Mode';
+        }
+        localStorage.setItem('quizTheme', theme);
+    }
+
+    function loadQuiz() {
+        quizData.forEach((qData, index) => {
+            const questionBlock = document.createElement('div');
+            questionBlock.classList.add('question-block');
+            questionBlock.id = `q${index}`;
+
+            const loText = document.createElement('div');
+            loText.classList.add('learning-objective');
+            loText.innerHTML = qData.learningObjective;
+            questionBlock.appendChild(loText);
+
+            const questionText = document.createElement('p');
+            questionText.classList.add('question-text');
+            questionText.innerHTML = `${index + 1}. ${qData.question}`;
+            questionBlock.appendChild(questionText);
+
+            const optionsDiv = document.createElement('div');
+            optionsDiv.classList.add('options');
+
+            for (const optionKey in qData.options) {
+                const optionId = `q${index}_${optionKey}`;
+                const label = document.createElement('label');
+                label.htmlFor = optionId;
+                const radioInput = document.createElement('input');
+                radioInput.type = 'radio';
+                radioInput.name = `q${index}`;
+                radioInput.value = optionKey;
+                radioInput.id = optionId;
+                const labelText = document.createElement('span');
+                labelText.textContent = ` ${optionKey}. ${qData.options[optionKey]}`;
+                label.appendChild(radioInput);
+                label.appendChild(labelText);
+                optionsDiv.appendChild(label);
+            }
+            questionBlock.appendChild(optionsDiv);
+
+            const buttonContainer = document.createElement('div');
+            buttonContainer.classList.add('button-container');
+
+            const checkButton = document.createElement('button');
+            checkButton.textContent = 'Check Answer';
+            checkButton.classList.add('check-button');
+            checkButton.onclick = () => checkAnswer(index);
+            buttonContainer.appendChild(checkButton);
+            
+            questionBlock.appendChild(buttonContainer);
+
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.classList.add('feedback');
+            questionBlock.appendChild(feedbackDiv);
+
+            quizContainer.appendChild(questionBlock);
+        });
+    }
+
+    function checkAnswer(questionIndex) {
+        const questionBlockElement = document.getElementById(`q${questionIndex}`);
+        const selectedRadioButton = questionBlockElement.querySelector('input[type="radio"]:checked');
+
+        if (!selectedRadioButton) {
+            alert("Please select an answer first.");
+            return;
+        }
+
+        const selectedOptionKey = selectedRadioButton.value;
+        const qData = quizData[questionIndex];
+        const feedbackDiv = questionBlockElement.querySelector('.feedback');
+        const correct = selectedOptionKey === qData.correctAnswer;
+
+        let feedbackHTML = '';
+
+        if (correct) {
+            feedbackHTML = `<span class="feedback-status">Correct!</span>`;
+            feedbackDiv.className = 'feedback correct';
+        } else {
+             feedbackHTML = `<span class="feedback-status">Incorrect. The correct answer is ${qData.correctAnswer}.</span>`;
+            feedbackDiv.className = 'feedback incorrect';
+        }
+
+        feedbackHTML += `<div class="feedback-rationale"><strong>Rationale:</strong> ${qData.rationale}</div>`;
+        feedbackHTML += `<div class="feedback-source">${qData.source}</div>`;
+        feedbackDiv.innerHTML = feedbackHTML;
+    }
+
+    themeToggleButton.addEventListener('click', () => {
+        if (bodyElement.classList.contains('light-theme')) {
+            applyTheme('dark');
+        } else {
+            applyTheme('light');
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedTheme = localStorage.getItem('quizTheme') || 'dark';
+        applyTheme(savedTheme);
+        loadQuiz();
+    });
+
+</script>
+
+</body>
+</html>
