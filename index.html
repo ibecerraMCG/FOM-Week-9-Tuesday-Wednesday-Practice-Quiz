@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Foundations of Medicine · Week 9 · Tuesday &amp; Wednesday — Practice Quiz</title>
+    <title>Foundations of Medicine · Week 9 · Tuesday &amp; Wednesday Practice Quiz</title>
     <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;text y=%22.9em%22 font-size=%2290%22&gt;🧬&lt;/text&gt;&lt;/svg&gt;">
 
     <!-- Umami Analytics — replace website-id with your quiz site ID when ready -->
@@ -883,6 +883,142 @@
 .conv-warning .cw-ic{font-size:1.05rem;line-height:1.35;flex:none}
 body.hide-conv-warning .conv-warning{display:none}
 </style>
+
+<style id="layout-variant-style">
+/* ---- relocated session controls (hero) ---- */
+.setup-row{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;margin-top:1.3rem;
+    padding-top:1.2rem;border-top:1px solid var(--border-subtle)}
+.setup-block{flex:1 1 430px;min-width:270px}
+.setup-block-narrow{flex:0 1 310px}
+.setup-label{font-size:0.64rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+    color:var(--text-muted);margin-bottom:.5rem}
+.mode-pick{display:flex;gap:10px}
+.mode-opt{flex:1 1 0;display:flex;align-items:center;gap:11px;padding:.8rem .95rem;border-radius:12px;
+    border:1.5px solid var(--border-subtle);background:var(--bg-card);color:var(--text-muted);
+    cursor:pointer;text-align:left;font-family:inherit;transition:border-color .16s,background .16s,color .16s}
+.mode-opt:hover{border-color:var(--border-color);background:var(--bg-card-hover);color:var(--text-main)}
+.mode-opt.active{border-color:var(--text-accent);background:var(--bg-active);color:var(--text-main)}
+.mode-opt .mo-ic{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:10px;
+    background:var(--bg-input);color:var(--text-accent);transition:.16s}
+.mode-opt.active .mo-ic{background:var(--button-bg);color:var(--button-text)}
+.mode-opt .mo-text{display:flex;flex-direction:column;gap:1px;min-width:0}
+.mode-opt .mo-title{font-size:.95rem;font-weight:700}
+.mode-opt .mo-sub{font-size:.73rem;color:var(--text-muted);line-height:1.3}
+.mode-opt.active .mo-sub{color:var(--text-main);opacity:.72}
+@media (max-width:520px){.mode-pick{flex-direction:column}}
+
+/* ---- session toggle (live score) ---- */
+.setup-toggle{display:flex;align-items:center;gap:11px;width:100%;padding:.8rem .95rem;border-radius:12px;
+    border:1.5px solid var(--border-subtle);background:var(--bg-card);color:var(--text-muted);
+    cursor:pointer;text-align:left;font-family:inherit;transition:border-color .16s,background .16s,color .16s}
+.setup-toggle:hover{border-color:var(--border-color);background:var(--bg-card-hover);color:var(--text-main)}
+.setup-toggle .st-box{flex:none;width:40px;height:23px;border-radius:99px;background:var(--bg-input);
+    border:1px solid var(--border-color);position:relative;transition:.18s}
+.setup-toggle .st-box::after{content:"";position:absolute;top:2px;left:2px;width:17px;height:17px;
+    border-radius:50%;background:var(--text-muted);transition:.18s}
+.setup-toggle[aria-checked="true"]{border-color:var(--text-accent);background:var(--bg-active);color:var(--text-main)}
+.setup-toggle[aria-checked="true"] .st-box{background:var(--button-bg);border-color:var(--button-bg)}
+.setup-toggle[aria-checked="true"] .st-box::after{transform:translateX(17px);background:var(--button-text)}
+.setup-toggle .st-title{font-size:.92rem;font-weight:700;display:block}
+.setup-toggle .st-sub{font-size:.73rem;color:var(--text-muted);display:block;line-height:1.3}
+.setup-toggle.hidden{display:none}
+
+/* ---- header progress pill ---- */
+.hdr-prog{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 11px;border-radius:10px;
+    border:1px solid var(--border-color);background:var(--bg-input);flex:none}
+.hdr-prog .hp-bar{width:56px;height:5px;border-radius:99px;background:var(--bg-body);overflow:hidden}
+.hdr-prog .hp-fill{height:100%;width:0;border-radius:99px;background:var(--text-accent);transition:width .3s ease}
+.hdr-prog .hp-text{font-size:.75rem;color:var(--text-muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.hdr-prog .hp-text b{color:var(--text-main)}
+.hdr-prog.hp-large{height:38px;padding:0 14px;gap:10px}
+.hdr-prog.hp-large .hp-bar{width:104px;height:6px}
+.hdr-prog.hp-large .hp-text{font-size:.84rem}
+body.hide-hdr-prog .hdr-prog{display:none}
+@media (max-width:900px){.hdr-prog .hp-bar{display:none}}
+
+/* ---- end-of-quiz grade prompt ---- */
+.grade-prompt{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:2.2rem;
+    padding:1.05rem 1.25rem;border-radius:14px;border:1px solid var(--border-color);background:var(--bg-active)}
+.grade-prompt.hidden{display:none}
+.gp-text{flex:1 1 250px;display:flex;flex-direction:column;gap:2px;font-size:.9rem;color:var(--text-main)}
+.gp-text span{color:var(--text-muted);font-size:.82rem}
+.gp-btn{background:var(--button-bg);color:var(--button-text);border:0;border-radius:10px;padding:.6rem 1.15rem;
+    font-weight:700;font-size:.88rem;cursor:pointer;font-family:inherit}
+.gp-btn:hover{filter:brightness(1.08)}
+.gp-dismiss{background:transparent;border:1px solid var(--border-color);color:var(--text-muted);
+    border-radius:10px;padding:.6rem 1rem;font-size:.85rem;cursor:pointer;font-family:inherit}
+.gp-dismiss:hover{color:var(--text-main)}
+
+/* ---- version badge ---- */
+.ver-chip{display:inline-block;margin-left:.5rem;padding:.1rem .5rem;border-radius:99px;
+    background:var(--bg-active);border:1px solid var(--border-color);color:var(--text-accent);
+    font-size:.7rem;font-weight:700;letter-spacing:.04em;vertical-align:middle}
+</style>
+
+<style id="hdr-track-style">
+/* One tracker, two possible homes. Off by default it stays in the navigator;
+   switched on it moves to the header and takes the same gradient with it.
+   The flag tally has no room in the header pill, so it rides along with the
+   "Flagged" legend entry instead of disappearing.
+
+   NOTE: the body-level state class (.tracker-header) must NEVER share a name
+   with the element class (.hdr-track). They did once, so `.hdr-track{display:none}`
+   matched <body> too and blanked the whole page the moment the switch was
+   flipped - and the saved preference made it stick across reloads. */
+.hdr-track{display:none;align-items:center;gap:9px;height:34px;padding:0 12px;border-radius:10px;
+    border:1px solid var(--border-color);background:var(--bg-input);flex:none}
+body.tracker-header .hdr-track{display:inline-flex}
+body.tracker-header .nav-summary{display:none}
+.hdr-track .ht-bar{width:92px;height:8px;border-radius:100px;background:var(--bg-body);
+    overflow:hidden;border:1px solid var(--border-subtle)}
+.hdr-track .ht-fill{height:100%;width:0%;border-radius:100px;
+    background:linear-gradient(90deg,var(--text-accent),var(--text-accent-2));transition:width .35s ease}
+.hdr-track .ht-text{font-size:.76rem;color:var(--text-muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.hdr-track .ht-text b{color:var(--text-main)}
+.legend-flag-count{display:none;margin-left:auto;font-variant-numeric:tabular-nums;
+    color:var(--flag-color,#f5a524);font-weight:700}
+body.tracker-header .legend-flag-count{display:inline}
+
+/* "Color accents" off flattens both progress bars to the solid accent, the same
+   substitution the quiz title already makes. Covers the navigator bar and the
+   header one, so the two never disagree. */
+body.no-accents .progress-fill,
+body.no-accents .hdr-track .ht-fill{background:var(--solid-accent)}
+
+@media (max-width:900px){body.tracker-header .hdr-track{display:none}
+    body.tracker-header .nav-summary{display:block}
+    body.tracker-header .legend-flag-count{display:none}}
+</style>
+
+<style id="theme-pick-style">
+/* The theme name ("Slate Blue") cost more header width than it earned. This
+   keeps the real <select> - so every existing theme code path is untouched -
+   but lays a palette icon + live accent swatch over it, collapsing the control
+   to icon-button size. The full names still appear in the open dropdown. */
+/* Matches .icon-btn exactly (transparent fill, 38px, same border/hover/press)
+   so it reads as one of the header buttons rather than a foreign control. */
+.theme-pick{position:relative;flex-shrink:0;height:38px;min-width:38px;padding:0 10px;
+    border-radius:10px;display:inline-flex;align-items:center;justify-content:center;gap:5px;
+    background:none;border:1px solid var(--border-color);cursor:pointer;
+    color:var(--text-main);font-family:var(--font-main);
+    transition:background .2s,border-color .2s,transform .15s}
+.theme-pick:hover{background:var(--bg-hover)}
+.theme-pick:active{transform:scale(0.94)}
+.theme-pick:focus-within{outline:2px solid var(--text-accent);outline-offset:1px}
+.theme-pick .tp-ic,.theme-pick .tp-caret{color:currentColor;flex:none;display:block}
+.theme-pick select.header-theme{position:absolute;inset:0;width:100%;height:100%;
+    opacity:0;cursor:pointer;border:0;padding:0;margin:0;min-width:0}
+</style>
+
+<style id="v6-extras-style">
+/* The running-score jump link is the one control you actually hunt for in
+   tutor mode, so it gets a filled treatment instead of the ghost-link look. */
+#view-score-btn{background:var(--button-bg);border-color:var(--button-bg);
+    color:var(--button-text);font-weight:700;
+    box-shadow:0 4px 16px var(--card-glow,rgba(0,0,0,.28))}
+#view-score-btn:hover{background:var(--button-bg);border-color:var(--button-bg);
+    filter:brightness(1.08)}
+</style>
 </head>
 
 <body>
@@ -916,14 +1052,10 @@ body.hide-conv-warning .conv-warning{display:none}
     </div>
 
     <div class="header-controls">
-        <div class="mode-switch" role="group" aria-label="Quiz mode">
-            <button id="mode-tutor" class="active" onclick="setMode('tutor')" title="Tutor mode: instant feedback per question">Tutor</button>
-            <button id="mode-exam" onclick="setMode('exam')" title="Exam mode: grade at the end">Exam</button>
+        <div id="hdr-track" class="hdr-track" title="Questions answered" aria-label="Questions answered">
+            <div class="ht-bar"><div class="ht-fill" id="ht-fill"></div></div>
+            <span class="ht-text"><b id="ht-count">0</b>/<span id="ht-total">0</span></span>
         </div>
-        <button id="grade-btn" class="icon-btn" onclick="toggleGradeTrack()" title="Live score tracker (tutor mode)" aria-label="Toggle live score tracker" aria-pressed="false">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V10"/><path d="M10 19V5"/><path d="M16 19v-7"/><path d="M3 21h18"/></svg>
-            <span class="btn-label">Grade</span>
-        </button>
         <button id="lo-btn" class="icon-btn" onclick="toggleLOs()" title="Show / hide learning objectives" aria-label="Show or hide learning objectives">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/></svg>
             <span class="btn-label">LOs</span>
@@ -931,7 +1063,7 @@ body.hide-conv-warning .conv-warning{display:none}
         <button id="hl-btn" class="icon-btn" onclick="toggleHighlighter()" title="Highlighter (H)" aria-label="Toggle highlighter">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 4.5l4 4-8.5 8.5-4 1 1-4z"/><path d="M12.5 7.5l4 4"/><path d="M4 20.5h6" stroke-width="2.4"/></svg>
         </button>
-        <select id="theme-select" class="header-theme" title="Choose color theme">
+        <div class="theme-pick" title="Color theme"><svg class="tp-ic" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="6.5" r=".9" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".9" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".9" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".9" fill="currentColor"/><path d="M12 2a10 10 0 1 0 0 20c.9 0 1.6-.7 1.6-1.6 0-.4-.2-.8-.5-1.1-.3-.3-.4-.6-.4-1 0-.9.7-1.6 1.6-1.6H16a6 6 0 0 0 6-6c0-4.4-4.5-8-10-8z"/></svg><svg class="tp-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg><select id="theme-select" class="header-theme" title="Choose color theme">
             <option value="slate">Slate Blue</option>
             <option value="light">Modern Light</option>
             <option value="sepia">Sepia</option>
@@ -942,7 +1074,7 @@ body.hide-conv-warning .conv-warning{display:none}
             <option value="midnight">Midnight</option>
             <option value="contrast">High Contrast</option>
             <option value="custom">⚙️ Custom…</option>
-        </select>
+        </select></div>
         <button id="typo-btn" class="icon-btn" onclick="bbToggleTypo()" title="Text size &amp; font" aria-label="Text size and font" aria-expanded="false"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 19l5.5-14L14 19"/><path d="M5.2 14h6.6"/><path d="M15.5 19l3.2-8 3.3 8"/><path d="M16.7 16.4h4"/></svg></button>
         <button id="settings-btn" class="icon-btn" onclick="toggleSettings()" title="Settings" aria-label="Settings">⚙️</button>
     </div>
@@ -1004,7 +1136,7 @@ body.hide-conv-warning .conv-warning{display:none}
                 <option value="neural">Neural network</option>
                 <option value="starfield">Starfield</option>
                 <option value="bubbles">Floating orbs</option>
-                <option value="grid">Pulsing grid</option>
+                <option value="aurora">Aurora</option>
                 <option value="waves">Waves</option>
             </select>
         </div>
@@ -1013,16 +1145,20 @@ body.hide-conv-warning .conv-warning{display:none}
             <button id="accent-toggle" class="toggle-switch on" role="switch" aria-checked="true" onclick="toggleAccents()"><span class="toggle-knob"></span></button>
         </div>
         <div class="settings-row">
-            <div class="settings-text"><div class="settings-title">Pinned header</div><div class="settings-sub">Keep the header fixed while scrolling</div></div>
+            <div class="settings-text"><div class="settings-title">📊 Progress tracker in header</div><div class="settings-sub">Move it out of the navigator and into the header</div></div>
+            <button id="hdrtrack-toggle" class="toggle-switch" role="switch" aria-checked="false" onclick="toggleHdrTrack()"><span class="toggle-knob"></span></button>
+        </div>
+        <div class="settings-row">
+            <div class="settings-text"><div class="settings-title">Disable warning text</div><div class="settings-sub">Hide the 💡 notice above the questions</div></div>
+            <button id="warning-toggle" class="toggle-switch" role="switch" aria-checked="false" onclick="toggleConvWarning()"><span class="toggle-knob"></span></button>
+        </div>
+        <div class="settings-row">
+            <div class="settings-text"><div class="settings-title">📌 Pinned header</div><div class="settings-sub">Keep the header fixed while scrolling</div></div>
             <button id="pin-toggle" class="toggle-switch on" role="switch" aria-checked="true" onclick="toggleHeader()"><span class="toggle-knob"></span></button>
         </div>
         <div class="settings-row">
             <div class="settings-text"><div class="settings-title">Original layout</div><div class="settings-sub">Switch to the original version of this quiz</div></div>
             <button id="layout-toggle" class="toggle-switch" role="switch" aria-checked="false" onclick="bbSetLayout('classic')"><span class="toggle-knob"></span></button>
-        </div>
-        <div class="settings-row">
-            <div class="settings-text"><div class="settings-title">Disable warning text</div><div class="settings-sub">Hide the 💡 notice above the questions</div></div>
-            <button id="warning-toggle" class="toggle-switch" role="switch" aria-checked="false" onclick="toggleConvWarning()"><span class="toggle-knob"></span></button>
         </div>
     </div>
 </header>
@@ -1043,7 +1179,7 @@ body.hide-conv-warning .conv-warning{display:none}
         <div class="nav-legend" id="nav-legend">
             <div class="legend-item"><span class="legend-swatch"></span> Unanswered</div>
             <div class="legend-item"><span class="legend-swatch answered"></span> Answered</div>
-            <div class="legend-item"><span class="legend-swatch flagged"></span> Flagged</div>
+            <div class="legend-item"><span class="legend-swatch flagged"></span> Flagged<span class="legend-flag-count" id="legend-flag-count">0</span></div>
             <div class="legend-item legend-graded" style="display:none"><span class="legend-swatch correct"></span> Correct</div>
             <div class="legend-item legend-graded" style="display:none"><span class="legend-swatch incorrect"></span> Incorrect</div>
         </div>
@@ -1062,7 +1198,7 @@ body.hide-conv-warning .conv-warning{display:none}
     <main id="main-content">
         <div class="quiz-hero">
             <div class="quiz-eyebrow">Foundations of Medicine · Week 9</div>
-            <h1 class="quiz-title">Tuesday &amp; Wednesday — Practice Quiz</h1>
+            <h1 class="quiz-title">Tuesday &amp; Wednesday Practice Quiz</h1>
             <div class="hero-actions">
                 <button id="help-btn" class="help-btn" onclick="openHelp()" aria-haspopup="dialog" title="How to use this quiz + keyboard shortcuts">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg>
@@ -1076,6 +1212,28 @@ body.hide-conv-warning .conv-warning{display:none}
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
                     Reset quiz
                 </button>
+            </div>
+            <div class="setup-row">
+                <div class="setup-block">
+                    <div class="setup-label">Quiz mode</div>
+                    <div class="mode-pick" role="group" aria-label="Quiz mode">
+                        <button id="mode-tutor" class="mode-opt active" onclick="setMode('tutor')" title="Tutor mode: instant feedback per question">
+                            <span class="mo-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span>
+                            <span class="mo-text"><span class="mo-title">Tutor</span><span class="mo-sub">Feedback after every question</span></span>
+                        </button>
+                        <button id="mode-exam" class="mode-opt" onclick="setMode('exam')" title="Exam mode: grade at the end">
+                            <span class="mo-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+                            <span class="mo-text"><span class="mo-title">Exam</span><span class="mo-sub">Grade everything at the end</span></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="setup-block setup-block-narrow" id="grade-setup-block">
+                    <div class="setup-label">Scoring</div>
+                    <button id="grade-hero" class="setup-toggle" role="switch" aria-checked="false" onclick="toggleGradeTrack()" title="Keep a running score while you answer (Tutor mode)">
+                        <span class="st-box" aria-hidden="true"></span>
+                        <span class="st-text"><span class="st-title">Live score</span><span class="st-sub">Running tally as you answer</span></span>
+                    </button>
+                </div>
             </div>
             <div class="quiz-meta">
                 <div class="qm"><span class="n" id="meta-q">0</span><span class="l">Questions</span></div>
@@ -1173,6 +1331,7 @@ const quizData = [{"section":"Prenatal Timeline","fullLO":"LO1: Distinguish the 
    carries over from the directory. */
 window.__bbQuizData = quizData;
 const K = {
+    hdrTrack: 'bb_trackerHeader',
     mode:      'q_' + QUIZ_ID + '_mode',
     showLO:    'q_' + QUIZ_ID + '_showLO',
     answers:   'q_' + QUIZ_ID + '_answers',
@@ -1310,7 +1469,7 @@ function renderQuiz() {
     const canvas = document.getElementById('neural-bg');
     const ctx = canvas.getContext('2d');
     let W, H, rafId = null, running = false, style = 'neural';
-    let nodes = [], orbs = [], stars = [], shooting = null, t = 0;
+    let nodes = [], orbs = [], stars = [], t = 0;
     const getRGB = () => getComputedStyle(document.documentElement).getPropertyValue('--neural-rgb').trim() || '110,168,254';
 
     function resize() {
@@ -1341,7 +1500,6 @@ function renderQuiz() {
             ts: 0.5 + Math.random() * 1.5,           // twinkle speed
             drift: 0.04 + Math.random() * 0.12       // downward drift
         }));
-        shooting = null;
     }
 
     function drawNeural() {
@@ -1383,23 +1541,6 @@ function renderQuiz() {
             ctx.fillStyle = `rgba(${rgb},${a.toFixed(3)})`;
             ctx.fill();
         });
-        // occasional shooting star
-        if (!shooting && Math.random() < 0.004) {
-            shooting = {
-                x: Math.random() * W * 0.6, y: Math.random() * H * 0.4,
-                vx: 6 + Math.random() * 4, vy: 3 + Math.random() * 2, life: 1
-            };
-        }
-        if (shooting) {
-            shooting.x += shooting.vx; shooting.y += shooting.vy; shooting.life -= 0.012;
-            const tailX = shooting.x - shooting.vx * 6, tailY = shooting.y - shooting.vy * 6;
-            const grad = ctx.createLinearGradient(shooting.x, shooting.y, tailX, tailY);
-            grad.addColorStop(0, `rgba(${rgb},${Math.max(0, shooting.life * 0.9).toFixed(3)})`);
-            grad.addColorStop(1, `rgba(${rgb},0)`);
-            ctx.strokeStyle = grad; ctx.lineWidth = 1.6;
-            ctx.beginPath(); ctx.moveTo(shooting.x, shooting.y); ctx.lineTo(tailX, tailY); ctx.stroke();
-            if (shooting.life <= 0 || shooting.x > W + 40 || shooting.y > H + 40) shooting = null;
-        }
     }
 
     function drawBubbles() {
@@ -1416,15 +1557,35 @@ function renderQuiz() {
         });
     }
 
-    function drawGrid() {
-        const rgb = getRGB(), gap = 46;
-        ctx.lineWidth = 1;
-        for (let x = 0; x <= W; x += gap) {
-            for (let y = 0; y <= H; y += gap) {
-                const a = 0.05 + 0.05 * Math.sin(t * 0.6 + (x + y) * 0.01);
-                ctx.fillStyle = `rgba(${rgb},${Math.max(0, a).toFixed(3)})`;
-                ctx.beginPath(); ctx.arc(x, y, 1.4, 0, Math.PI * 2); ctx.fill();
+    /* Aurora - slow luminous curtains. No particles and no hard edges, so
+       there is nothing for the eye to lock onto or track; it reads as depth
+       rather than motion. Replaces the old pulsing dot grid, whose synchronised
+       blink was the most attention-grabbing of the set. */
+    function drawAurora() {
+        const rgb = getRGB();
+        for (let k = 0; k < 3; k++) {
+            const yBase = H * (0.20 + k * 0.26);
+            const amp   = 34 + k * 15;
+            const speed = t * (0.13 + k * 0.04);
+            const thick = 120 + k * 45;
+            const pts = [];
+            for (let x = 0; x <= W + 20; x += 20) {
+                pts.push([x, yBase
+                    + Math.sin(x * 0.0040 + speed) * amp
+                    + Math.sin(x * 0.0102 + speed * 1.3) * amp * 0.36]);
             }
+            ctx.beginPath();
+            for (let i = 0; i < pts.length; i++) {
+                i ? ctx.lineTo(pts[i][0], pts[i][1]) : ctx.moveTo(pts[i][0], pts[i][1]);
+            }
+            for (let i = pts.length - 1; i >= 0; i--) ctx.lineTo(pts[i][0], pts[i][1] + thick);
+            ctx.closePath();
+            const g = ctx.createLinearGradient(0, yBase - amp, 0, yBase + thick + amp);
+            g.addColorStop(0,   `rgba(${rgb},0)`);
+            g.addColorStop(0.5, `rgba(${rgb},${(0.075 - k * 0.017).toFixed(4)})`);
+            g.addColorStop(1,   `rgba(${rgb},0)`);
+            ctx.fillStyle = g;
+            ctx.fill();
         }
     }
 
@@ -1459,7 +1620,7 @@ function renderQuiz() {
         if (style === 'neural') drawNeural();
         else if (style === 'starfield') drawStarfield();
         else if (style === 'bubbles') drawBubbles();
-        else if (style === 'grid') drawGrid();
+        else if (style === 'aurora') drawAurora();
         else if (style === 'waves') drawWaves();
     }
     function start() {
@@ -1477,7 +1638,7 @@ function renderQuiz() {
         canvas.style.display = 'none';
     }
     function setStyle(name) {
-        style = name;
+        style = (name === 'grid') ? 'aurora' : name;   // renamed style
         seed();
     }
     window.addEventListener('resize', () => { if (running) resize(); });
@@ -1656,6 +1817,7 @@ function syncModeButtons() {
     document.getElementById('mode-tutor').classList.toggle('active', mode === 'tutor');
     document.getElementById('mode-exam').classList.toggle('active', mode === 'exam');
     document.body.classList.toggle('mode-tutor', mode === 'tutor');
+    if (typeof syncGradeHero === 'function') syncGradeHero();
 }
 function setMode(newMode) {
     if (mode === newMode) return;
@@ -1995,6 +2157,7 @@ function updateProgress() {
     document.getElementById('answered-count').textContent = answered;
     document.getElementById('flag-count').textContent = flagged;
     document.getElementById('progress-fill').style.width = (answered / quizData.length * 100) + '%';
+    if (typeof updateHdrTrack === 'function') updateHdrTrack(answered, flagged);
 }
 
 /* ============================================================
@@ -2022,6 +2185,7 @@ function applyGradeTrackUI() {
     }
     const vb = document.getElementById('view-score-btn');
     if (vb) vb.style.display = on ? '' : 'none';
+    if (typeof syncGradeHero === 'function') syncGradeHero();
 }
 
 /* Recompute the running tutor score from the submitted questions. */
@@ -2494,6 +2658,40 @@ function toggleConvWarning() {
     applyConvWarning(hidden);
 }
 
+
+/* ---- relocatable progress tracker ---- */
+function updateHdrTrack(answered, flagged) {
+    const f = document.getElementById('ht-fill');
+    if (f) {
+        document.getElementById('ht-count').textContent = answered;
+        document.getElementById('ht-total').textContent = quizData.length;
+        f.style.width = (answered / quizData.length * 100) + '%';
+    }
+    const lf = document.getElementById('legend-flag-count');
+    if (lf) lf.textContent = '⚑ ' + flagged;
+}
+function applyHdrTrack(on) {
+    /* body state class is deliberately NOT the element's own class name */
+    document.body.classList.toggle('tracker-header', on);
+    const t = document.getElementById('hdrtrack-toggle');
+    if (t) { t.classList.toggle('on', on); t.setAttribute('aria-checked', on ? 'true' : 'false'); }
+}
+function toggleHdrTrack() {
+    const on = !document.getElementById('hdrtrack-toggle').classList.contains('on');
+    try { localStorage.setItem(K.hdrTrack, on ? 'true' : 'false'); } catch (e) {}
+    applyHdrTrack(on);
+}
+
+/* ---- live-score control relocated to the hero ---- */
+function syncGradeHero() {
+    const el = document.getElementById('grade-hero');
+    if (!el) return;
+    const on = gradeTrack && mode === 'tutor';
+    el.setAttribute('aria-checked', on ? 'true' : 'false');
+    const block = document.getElementById('grade-setup-block');
+    if (block) block.style.display = (mode === 'tutor') ? '' : 'none';
+}
+
 (function init() {
     if (localStorage.getItem('bb_layout') === 'classic') { if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', renderClassicLayout, {once:true}); else renderClassicLayout(); return; }
     // shared theme
@@ -2505,7 +2703,8 @@ function toggleConvWarning() {
     // shared header pin
     toggleHeader(localStorage.getItem('bb_headerPinned') !== 'false');
     // shared background + accents
-    const savedStyle = localStorage.getItem('bb_bgStyle') || 'neural';
+    let savedStyle = localStorage.getItem('bb_bgStyle') || 'neural';
+    if (savedStyle === 'grid') savedStyle = 'aurora';   // renamed style
     const styleSel = document.getElementById('bg-style-select');
     if (styleSel) styleSel.value = savedStyle;
     window.bgFx && window.bgFx.setStyle(savedStyle);
@@ -2529,6 +2728,8 @@ function toggleConvWarning() {
     // auto-submit toggle (tutor only): reflect saved state + hide in exam mode
     toggleAutoSubmit(autoSubmit);
     document.getElementById('autosubmit-btn').classList.toggle('hidden', mode !== 'tutor');
+    applyHdrTrack(localStorage.getItem(K.hdrTrack) === 'true');
+    syncGradeHero();
     // render
     renderQuiz();
     // tutor live score tracker + persistent exam report
